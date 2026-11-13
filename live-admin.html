@@ -22,14 +22,16 @@ h1,h2,h3,.serif{font-family:'Cambria',Georgia,serif}
 /* Header */
 header.site{
   background:var(--navy);border-bottom:3px solid var(--gold);
-  color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;
+  color:#fff;padding:14px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
 }
+.navlink{margin-left:auto;color:var(--gold);text-decoration:none;font-weight:700;font-size:.95rem;white-space:nowrap}
+.navlink:hover{text-decoration:underline}
 .brandmark{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
   gap:3px;width:34px;height:34px;flex:0 0 auto}
 .brandmark span{background:#fff;border-radius:2px}
 .brandmark span.g{background:var(--gold)}
 .wordmark{font-family:'Cambria',Georgia,serif;letter-spacing:.06em;font-size:1.25rem;font-weight:700}
-.sub{color:var(--ice);font-size:.95rem;margin-left:auto;text-align:right}
+.sub{color:var(--ice);font-size:.95rem;margin-left:20px;text-align:right}
 
 /* Layout */
 main{flex:1;padding:26px;display:flex;flex-direction:column;align-items:center}
@@ -37,6 +39,14 @@ main{flex:1;padding:26px;display:flex;flex-direction:column;align-items:center}
   box-shadow:0 6px 22px rgba(26,44,90,.08);padding:28px;width:100%;max-width:1200px}
 .center{text-align:center}
 .muted{color:var(--slate)}
+.connbadge{margin-top:18px;font-size:1rem;color:var(--slate)}
+.connbadge.ok{color:var(--green);font-weight:700}
+.connbadge.warn{color:var(--bronze)}
+.connbadge.err{color:var(--red);font-weight:700;max-width:760px;margin-left:auto;margin-right:auto}
+.msgbox{margin:18px auto 0;max-width:820px;text-align:left;border-radius:10px;padding:14px 18px;font-size:1.05rem;line-height:1.5}
+.msgbox.info{background:var(--panel);color:var(--navy)}
+.msgbox.err{background:#F6E7E4;color:#7a271a;border:1px solid #E3BDB6}
+.msgbox code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-size:.92em}
 
 /* Buttons */
 button{font-family:inherit;cursor:pointer;border:none;border-radius:12px;
@@ -62,11 +72,12 @@ button:active{transform:translateY(1px)}
 .codebig{font-family:'Cambria',Georgia,serif;font-weight:700;color:var(--navy);
   font-size:clamp(3.5rem,13vw,8rem);letter-spacing:.12em;line-height:1}
 .lobbygrid{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start;justify-content:center}
-.qrbox{background:#fff;padding:16px;border:1px solid var(--line);border-radius:14px}
+.joincol{display:flex;flex-direction:column;align-items:center}
+.qrbox{background:#fff;padding:14px;border:1px solid var(--line);border-radius:14px;margin:14px auto 0;width:max-content}
 .qrbox img,.qrbox canvas{display:block}
-.joinurl{word-break:break-all;font-size:1rem;color:var(--navy);margin-top:10px;
-  max-width:300px;text-align:center}
-.playerwrap{flex:1;min-width:320px}
+.joinurl{word-break:break-all;font-size:.82rem;color:var(--slate);margin-top:10px;
+  max-width:262px;text-align:center;line-height:1.35}
+.playerwrap{flex:1;min-width:300px}
 .players{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
 .chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;
   padding:10px 18px;font-size:1.3rem;font-weight:700;display:flex;align-items:center;gap:10px;
@@ -157,6 +168,7 @@ footer .brandmark{width:26px;height:26px}
 <header class="site">
   <span class="brandmark"><span></span><span></span><span></span><span class="g"></span></span>
   <span class="wordmark">DR. CHRISTIAN NEUSSER</span>
+  <a class="navlink" href="probelehrveranstaltung.html">&larr; Zur Probelehrveranstaltung</a>
   <span class="sub serif">Live-Quiz Moderator<br>Abweichungsanalyse</span>
 </header>
 
@@ -164,7 +176,7 @@ footer .brandmark{width:26px;height:26px}
 
 <footer class="site">
   <span class="brandmark"><span></span><span></span><span></span><span class="g"></span></span>
-  <span>Modul Controlling (22B0140) - Hochschule Osnabrueck - Live-Quiz zur Probelehrveranstaltung</span>
+  <span>Modul Controlling (22B0140) - Hochschule Osnabrück - Live-Quiz zur Probelehrveranstaltung</span>
 </footer>
 
 <!-- Firebase compat SDK -->
@@ -178,45 +190,52 @@ footer .brandmark{width:26px;height:26px}
 <script>
 /* ===================== Gemeinsame Daten ===================== */
 var QUESTIONS = [
-  { q:"Was sind Sollkosten?",
-    o:["Proportionaler Satz mal Istbeschaeftigung plus fixe Plankosten",
-       "Voller Satz mal Istbeschaeftigung",
-       "Proportionaler Satz mal Planbeschaeftigung plus fixe Plankosten",
-       "Fixe Plankosten mal Auslastungsgrad"],
-    a:0,
-    e:"Sollkosten sind die bei Istbeschaeftigung erlaubten Kosten: 30 Euro/Mh mal Istbeschaeftigung plus 20.000 Euro fixe Plankosten." },
-  { q:"Oktober, 600 Mh, saubere Arbeit: Wie hoch ist die Verbrauchsabweichung?",
-    o:["0 Euro","8.000 Euro","12.000 Euro","2.000 Euro"],
-    a:0,
-    e:"Sollkosten bei 600 Mh = 30 mal 600 plus 20.000 = 38.000 Euro. Die Istkosten betragen bei sauberer Arbeit ebenfalls 38.000 Euro, also keine Verbrauchsabweichung." },
-  { q:"Welche Abweichung verantwortet die Kostenstelle selbst?",
-    o:["Die Verbrauchsabweichung","Die Beschaeftigungsabweichung","Die Preisabweichung","Die Gesamtabweichung"],
-    a:0,
-    e:"Nur die Verbrauchsabweichung liegt im Einflussbereich der Kostenstelle. Die Beschaeftigungsabweichung entsteht aus der Auslastung, nicht aus dem Arbeiten vor Ort." },
-  { q:"Die 8.000 Euro im KI-Bericht sind in Wahrheit?",
-    o:["Beschaeftigungsabweichung bzw. reine Leerkosten der Auslastung",
-       "Eine echte Verbrauchsabweichung",
-       "Eine Preisabweichung beim Materialeinkauf",
-       "Eine Mengenabweichung in der Fertigung"],
-    a:0,
-    e:"8.000 Euro = fixer Satz 20 Euro/Mh mal (1.000 minus 600) Mh Minderauslastung. Das sind Leerkosten der Beschaeftigung, keine Ineffizienz." },
-  { q:"Warum kennt die Grenzplankostenrechnung keine Beschaeftigungsabweichung?",
-    o:["Weil nur proportionale Kosten auf den Kostentraeger verrechnet werden, Fixkosten bleiben als Block",
-       "Weil sie gar keine Fixkosten erfasst",
+  { q:"Was sind die Sollkosten einer Kostenstelle?",
+    o:["Die unveränderten Plankosten aus dem Jahresbudget",
+       "Der an die Istbeschäftigung angepasste Kostenmaßstab",
+       "Die tatsächlich angefallenen Istkosten",
+       "Umsatz minus variable Kosten"],
+    a:1,
+    e:"Sollkosten sind der mitatmende Maßstab: proportionaler Satz (30 Euro/Mh) mal Istbeschäftigung plus fixe Plankosten (20.000 Euro). Bei 600 Mh also 38.000 Euro." },
+  { q:"Oktober: geplant 1.000 Mh, tatsächlich nur 600 Mh. Die Stelle arbeitet sauber (Ist = Soll = 38.000 Euro). Wie hoch ist die Verbrauchsabweichung?",
+    o:["8.000 Euro","0 Euro","12.000 Euro","2.000 Euro"],
+    a:1,
+    e:"Verbrauchsabweichung = Istkosten minus Sollkosten = 38.000 minus 38.000 = 0. Sauber gearbeitet heißt null Verbrauchsabweichung." },
+  { q:"Welche Abweichung kann die Kostenstelle selbst beeinflussen?",
+    o:["Die Beschäftigungsabweichung","Beide gleichermaßen","Die Verbrauchsabweichung","Keine von beiden"],
+    a:2,
+    e:"Nur die Verbrauchsabweichung (Mehrverbrauch, Ausschuss) liegt im Einfluss der Stelle. Die Beschäftigungsabweichung kommt aus der Auslastung." },
+  { q:"Die KI meldet 8.000 Euro: ungünstig, ineffiziente Fertigung. Was sind diese 8.000 Euro wirklich?",
+    o:["Eine echte Verbrauchsabweichung der Stelle",
+       "Eine Preisabweichung im Einkauf",
+       "Ein Rechenfehler der KI",
+       "Leerkosten der Unterauslastung (Beschäftigungsabweichung)"],
+    a:3,
+    e:"20 Euro/Mh fixer Satz mal 400 nicht genutzte Stunden = 8.000 Euro. Leerkosten der Auslastung, keine Ineffizienz." },
+  { q:"Warum kennt die Grenzplankostenrechnung keine Beschäftigungsabweichung?",
+    o:["Weil sie gar keine Fixkosten kennt",
+       "Weil Fixkosten als Block bleiben und nicht je Stunde verrechnet werden",
        "Weil sie die Istkosten ignoriert",
-       "Weil sie ausschliesslich Plankosten betrachtet"],
-    a:0,
-    e:"In der Grenzplankostenrechnung werden Fixkosten nicht proportionalisiert, sondern als Block behandelt. Ohne Fixkostenverrechnung gibt es keine Beschaeftigungsabweichung." },
-  { q:"Was war der Fehler der Controlling-KI?",
-    o:["Richtig gerechnet, aber falsch gedeutet (Beschaeftigung als Verbrauch etikettiert)",
-       "Sie hat sich komplett verrechnet",
+       "Weil sie nur mit Planwerten rechnet"],
+    a:1,
+    e:"Sie verrechnet nur die proportionalen Kosten auf den Träger. Ohne Fixkostenverrechnung je Stunde kann keine Beschäftigungsabweichung entstehen." },
+  { q:"Was war der eigentliche Fehler der Controlling-KI?",
+    o:["Sie hat sich verrechnet",
        "Sie hat die Fixkosten vergessen",
-       "Sie hat die Istbeschaeftigung falsch erfasst"],
-    a:0,
-    e:"Die Zahl von 8.000 Euro stimmt rechnerisch. Der Fehler liegt in der Deutung: Leerkosten der Auslastung wurden faelschlich als Verbrauchsabweichung etikettiert." }
+       "Richtig gerechnet, aber falsch gedeutet",
+       "Sie hat den falschen Monat genommen"],
+    a:2,
+    e:"Die 8.000 Euro stimmen rechnerisch. Der Fehler ist die Deutung: Auslastung wurde als Ineffizienz etikettiert. Darum: KI prüfen statt KI glauben." },
+  { q:"Transfer: Eine Spedition fährt in einem schwachen Monat weniger Touren, die Fahrer arbeiten unverändert sorgfältig. Welche Abweichung steigt, und wer verantwortet sie?",
+    o:["Die Verbrauchsabweichung, verantwortlich sind die Fahrer",
+       "Die Beschäftigungsabweichung, verantwortlich sind Vertrieb und Marktlage",
+       "Die Preisabweichung, verantwortlich ist der Einkauf",
+       "Es entsteht keine Abweichung"],
+    a:1,
+    e:"Weniger Touren heißt Unterauslastung: Leerkosten der Beschäftigung, dieselbe Logik wie in der Dreherei. Die Fahrer arbeiten sauber, also keine Verbrauchsabweichung." }
 ];
 var DURATION_MS = 25000;
-var NUM_Q = QUESTIONS.length; // 6
+var NUM_Q = QUESTIONS.length; // 7
 var FXSET = ["confetti","sparks","stars","streamers","champagne","fireworks"];
 var FXPAL = ["#B39058","#1A2C5A","#1E7A52","#A6611E","#C1D1E8","#62708A","#B23A2E","#86683A"];
 
@@ -365,16 +384,34 @@ function attachRoom(code){
   roomRef.on("value", roomCb);
 }
 
+function setMsg(html,kind){
+  var m=document.getElementById("msg");
+  if(!m) return;
+  m.style.display="block";
+  m.className="msgbox "+(kind||"info");
+  m.innerHTML=html;
+}
 function newGame(){
-  if(!firebaseReady){ return; }
+  if(!firebaseReady){ setMsg("Firebase ist nicht bereit. Bitte die Seite neu laden.","err"); return; }
   var code = randCode();
   roomCode = code;
+  setMsg("Spiel wird angelegt ...","info");
   var ref = db.ref("rooms/"+code);
+  var done=false;
+  var to=setTimeout(function(){
+    if(done) return;
+    setMsg("<b>Keine Antwort von der Datenbank.</b> Bitte pruefen: "+
+      "(1) Es muss eine <b>Realtime Database</b> sein, nicht Firestore. "+
+      "(2) Die <b>databaseURL</b> in firebase-config.js muss exakt zur Datenbank passen (Region europe-west1). "+
+      "(3) Die Datenbank-<b>Regeln</b> muessen fuer das Event auf offen stehen: .read und .write auf true, dann veroeffentlichen.","err");
+  },7000);
   ref.set({
     meta:{ createdAt: firebase.database.ServerValue.TIMESTAMP },
     state:{ phase:"lobby", currentQ:0, qOpenAt:0 }
-  }).then(function(){ attachRoom(code); })
-    .catch(function(e){ console.error(e); });
+  }).then(function(){ done=true; clearTimeout(to); attachRoom(code); })
+    .catch(function(e){ done=true; clearTimeout(to); console.error(e);
+      var msg=(e&&e.message)?e.message:String(e);
+      setMsg("<b>Fehler beim Anlegen des Spiels:</b> "+esc(msg)+"<br>Haeufigste Ursache: die Datenbank-Regeln sind noch gesperrt. In Firebase unter Realtime Database &gt; Regeln <code>.read</code> und <code>.write</code> auf <code>true</code> setzen und veroeffentlichen. Danach erneut auf Start klicken.","err"); });
 }
 
 function startGame(){
@@ -448,10 +485,11 @@ function renderLobby(){
   main.innerHTML =
     '<div class="card">'+
       '<div class="lobbygrid">'+
-        '<div class="center">'+
+        '<div class="center joincol">'+
           '<div class="muted serif" style="font-size:1.4rem">Raumcode</div>'+
           '<div class="codebig">'+esc(roomCode)+'</div>'+
-          '<div class="qrbox" id="qrbox" style="margin:16px auto 0;width:max-content"></div>'+
+          '<div class="muted" style="margin-top:4px;font-size:1.05rem">Handy-Kamera auf den QR-Code richten und mitspielen</div>'+
+          '<div class="qrbox" id="qrbox"></div>'+
           '<div class="joinurl" id="joinurl"></div>'+
         '</div>'+
         '<div class="playerwrap">'+
@@ -494,7 +532,7 @@ function drawQr(){
   if(window.QRCode){
     try{ new QRCode(box,{text:url,width:230,height:230,
       colorDark:"#1A2C5A",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M}); }
-    catch(e){ box.innerHTML='<div class="muted">QR nicht verfuegbar. Bitte die Adresse unten nutzen.</div>'; }
+    catch(e){ box.innerHTML='<div class="muted">QR nicht verfügbar. Bitte die Adresse unten nutzen.</div>'; }
   } else {
     box.innerHTML='<div class="muted" style="max-width:230px">QR-Bibliothek nicht geladen. Bitte die Adresse unten am Handy eingeben.</div>';
   }
@@ -538,7 +576,7 @@ function renderQuestion(){
       '<div class="opts">'+optsHtml+'</div>'+
       '<div class="progbar"><div id="progbar"></div></div>'+
       '<div class="btnrow">'+
-        '<button class="btn" id="btnClose">Frage schliessen und aufloesen</button>'+
+        '<button class="btn" id="btnClose">Frage schließen und auflösen</button>'+
       '</div>'+
     '</div>';
   document.getElementById("btnClose").onclick=closeAndResolve;
@@ -579,16 +617,16 @@ function renderReveal(){
   }
   main.innerHTML=
     '<div class="card">'+
-      '<div class="qmeta"><span class="qnum">Aufloesung Frage '+(cq+1)+' von '+NUM_Q+'</span></div>'+
+      '<div class="qmeta"><span class="qnum">Auflösung Frage '+(cq+1)+' von '+NUM_Q+'</span></div>'+
       '<div class="qtext">'+esc(q.q)+'</div>'+
       '<div class="opts">'+optsHtml+'</div>'+
-      '<div class="expl"><strong>Erklaerung:</strong> '+esc(q.e)+'</div>'+
+      '<div class="expl"><strong>Erklärung:</strong> '+esc(q.e)+'</div>'+
       '<div class="ranks">'+
         '<div><h3>Rundensieger dieser Frage</h3>'+rankRows(round,true)+'</div>'+
         '<div><h3>Gesamtrangliste</h3>'+rankRows(cum,false)+'</div>'+
       '</div>'+
       '<div class="btnrow">'+
-        '<button class="btn navy" id="btnNext">'+(cq<NUM_Q-1?'Naechste Frage':'Zum Finale')+'</button>'+
+        '<button class="btn navy" id="btnNext">'+(cq<NUM_Q-1?'Nächste Frage':'Zum Finale')+'</button>'+
       '</div>'+
     '</div>';
   document.getElementById("btnNext").onclick=nextQuestion;
@@ -629,7 +667,7 @@ function renderFinal(){
       '<h1 class="serif" style="color:var(--navy);font-size:clamp(2.2rem,6vw,4rem)">Endstand</h1>'+
       podHtml+
       '<div class="finalfull" style="max-width:640px;margin:20px auto 0;text-align:left">'+
-        '<h3 class="serif" style="color:var(--navy);border-bottom:2px solid var(--gold);padding-bottom:6px">Vollstaendige Endrangliste</h3>'+
+        '<h3 class="serif" style="color:var(--navy);border-bottom:2px solid var(--gold);padding-bottom:6px">Vollständige Endrangliste</h3>'+
         (fullHtml||'<p class="muted">Keine Teilnehmer</p>')+
       '</div>'+
       '<div class="btnrow"><button class="btn" id="btnNew3">Neues Spiel</button></div>'+
@@ -647,16 +685,16 @@ function renderSetup(){
   main.innerHTML=
     '<div class="card setup">'+
       '<h2 class="serif">Einrichtung noch offen</h2>'+
-      '<p>Damit das Live-Quiz die Geraete synchronisieren kann, muss einmalig eine kostenlose Firebase Realtime Database eingerichtet werden. Die Konfiguration gehoert in die Datei <code>firebase-config.js</code>.</p>'+
+      '<p>Damit das Live-Quiz die Geräte synchronisieren kann, muss einmalig eine kostenlose Firebase Realtime Database eingerichtet werden. Die Konfiguration gehört in die Datei <code>firebase-config.js</code>.</p>'+
       '<ol>'+
         '<li>Auf <code>firebase.google.com</code> ein Projekt anlegen.</li>'+
         '<li>Realtime Database erstellen, Region <code>europe-west1</code>.</li>'+
         '<li>Web-App registrieren und die angezeigte Konfiguration kopieren.</li>'+
         '<li>Werte in <code>firebase-config.js</code> eintragen (alle Platzhalter ersetzen).</li>'+
-        '<li>Datenbank-Regeln fuer das Event temporaer auf offen setzen:<br>'+
+        '<li>Datenbank-Regeln für das Event temporär auf offen setzen:<br>'+
           '<code>{ "rules": { ".read": true, ".write": true } }</code></li>'+
       '</ol>'+
-      '<p class="muted" style="margin-top:14px">Die ausfuehrliche Schritt-fuer-Schritt-Anleitung steht als Kommentar in <code>firebase-config.js</code>. Nach dem Speichern diese Seite neu laden.</p>'+
+      '<p class="muted" style="margin-top:14px">Die ausführliche Schritt-für-Schritt-Anleitung steht als Kommentar in <code>firebase-config.js</code>. Nach dem Speichern diese Seite neu laden.</p>'+
     '</div>';
 }
 
@@ -664,10 +702,30 @@ function renderWelcome(){
   main.innerHTML=
     '<div class="card center">'+
       '<h1 class="serif" style="color:var(--navy);font-size:clamp(2rem,5vw,3.4rem)">Live-Quiz zur Abweichungsanalyse</h1>'+
-      '<p class="muted" style="font-size:1.3rem;margin-top:10px">6 Fragen, Echtzeit auf allen Handys. Fuer den Beamer optimiert.</p>'+
+      '<p class="muted" style="font-size:1.3rem;margin-top:10px">7 Fragen, Echtzeit auf allen Handys. Fuer den Beamer optimiert.</p>'+
       '<div class="btnrow"><button class="btn green" id="btnNew">Neues Spiel starten</button></div>'+
+      '<div id="conn" class="connbadge">Verbindung wird geprüft ...</div>'+
+      '<div id="msg" class="msgbox" style="display:none"></div>'+
     '</div>';
   document.getElementById("btnNew").onclick=newGame;
+  probeConnection();
+}
+
+function probeConnection(){
+  try{
+    var cref=db.ref(".info/connected");
+    var seen=false;
+    cref.on("value",function(s){
+      var c=document.getElementById("conn"); if(!c) return;
+      if(s.val()===true){ seen=true; c.className="connbadge ok"; c.textContent="Mit der Datenbank verbunden"; }
+      else { c.className="connbadge warn"; c.textContent=seen?"Verbindung unterbrochen ...":"Verbinde mit der Datenbank ..."; }
+    });
+    setTimeout(function(){
+      var c=document.getElementById("conn");
+      if(c && !seen){ c.className="connbadge err";
+        c.innerHTML="Keine Verbindung zur Datenbank. Prüfe die <b>databaseURL</b> (Region europe-west1) in firebase-config.js und ob eine <b>Realtime Database</b> (nicht Firestore) angelegt ist."; }
+    },8000);
+  }catch(e){ /* noop */ }
 }
 
 (function boot(){
