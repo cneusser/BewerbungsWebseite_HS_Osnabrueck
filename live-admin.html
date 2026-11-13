@@ -356,6 +356,7 @@ function initFirebase(){
 var main = document.getElementById("main");
 var roomCode=null, roomRef=null, roomCb=null, currentData=null;
 var tickTimer=null, revealDoneFor=-1, finalDone=false, qrDrawn=false;
+var closingFor=-1, advanceArmedFor=-1, advanceTimer=null;
 
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,function(m){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]; }); }
@@ -370,7 +371,8 @@ function detachRoom(){
   if(roomRef && roomCb){ roomRef.off("value",roomCb); }
   roomRef=null; roomCb=null; currentData=null;
   if(tickTimer){ clearInterval(tickTimer); tickTimer=null; }
-  revealDoneFor=-1; finalDone=false; qrDrawn=false;
+  if(advanceTimer){ clearTimeout(advanceTimer); advanceTimer=null; }
+  revealDoneFor=-1; finalDone=false; qrDrawn=false; closingFor=-1; advanceArmedFor=-1;
 }
 
 function attachRoom(code){
@@ -422,7 +424,10 @@ function startGame(){
 
 function nextQuestion(){
   if(!roomRef || !currentData) return;
-  var cq = (currentData.state && currentData.state.currentQ)||0;
+  var stn = currentData.state||{};
+  if(stn.phase!=="reveal") return;   // nur aus der Aufloesung heraus weiter (verhindert Doppelsprung)
+  if(advanceTimer){ clearTimeout(advanceTimer); advanceTimer=null; }
+  var cq = stn.currentQ||0;
   if(cq < NUM_Q-1){
     roomRef.child("state").update({ phase:"question", currentQ:cq+1,
       qOpenAt: firebase.database.ServerValue.TIMESTAMP });
@@ -435,6 +440,9 @@ function closeAndResolve(){
   if(!roomRef || !currentData) return;
   var st = currentData.state||{};
   var cq = st.currentQ||0;
+  if(st.phase!=="question") return;    // nur offene Fragen aufloesen
+  if(closingFor===cq) return;          // nur einmal je Frage
+  closingFor=cq;
   var q = QUESTIONS[cq];
   var qOpenAt = st.qOpenAt||0;
   var answers = (currentData.answers && currentData.answers[cq]) || {};
@@ -466,6 +474,7 @@ function render(){
   var st = currentData.state || {phase:"lobby",currentQ:0};
   var phase = st.phase || "lobby";
   if(tickTimer && phase!=="question"){ clearInterval(tickTimer); tickTimer=null; }
+  if(advanceTimer && phase!=="reveal"){ clearTimeout(advanceTimer); advanceTimer=null; }
   if(phase==="lobby") renderLobby();
   else if(phase==="question") renderQuestion();
   else if(phase==="reveal") renderReveal();
@@ -553,6 +562,7 @@ function updateTimer(){
   var bar=document.getElementById("progbar");
   if(t){ t.textContent=secs; t.className="timer"+(secs<=5?" low":""); }
   if(bar){ bar.style.width=(remain/DURATION_MS*100)+"%"; }
+  if(remain<=0){ closeAndResolve(); }   // Zeit um: automatisch aufloesen
 }
 
 function renderQuestion(){
@@ -575,12 +585,14 @@ function renderQuestion(){
       '<div class="qtext">'+esc(q.q)+'</div>'+
       '<div class="opts">'+optsHtml+'</div>'+
       '<div class="progbar"><div id="progbar"></div></div>'+
+      '<p class="muted" style="text-align:center;margin-top:10px;font-size:1rem">Löst automatisch auf, wenn alle geantwortet haben oder die Zeit abläuft.</p>'+
       '<div class="btnrow">'+
-        '<button class="btn" id="btnClose">Frage schließen und auflösen</button>'+
+        '<button class="btn ghost" id="btnClose">Jetzt auflösen</button>'+
       '</div>'+
     '</div>';
   document.getElementById("btnClose").onclick=closeAndResolve;
   startTicker();
+  if(total>0 && cnt>=total){ closeAndResolve(); }   // alle haben geantwortet: automatisch aufloesen
 }
 
 function rankRows(list, highlightTop){
@@ -625,14 +637,20 @@ function renderReveal(){
         '<div><h3>Rundensieger dieser Frage</h3>'+rankRows(round,true)+'</div>'+
         '<div><h3>Gesamtrangliste</h3>'+rankRows(cum,false)+'</div>'+
       '</div>'+
+      '<p class="muted" style="text-align:center;margin-top:6px;font-size:1rem">'+(cq<NUM_Q-1?'Weiter in 3 Sekunden ...':'Zum Finale in 3 Sekunden ...')+'</p>'+
       '<div class="btnrow">'+
-        '<button class="btn navy" id="btnNext">'+(cq<NUM_Q-1?'Nächste Frage':'Zum Finale')+'</button>'+
+        '<button class="btn navy" id="btnNext">'+(cq<NUM_Q-1?'Jetzt weiter':'Jetzt zum Finale')+'</button>'+
       '</div>'+
     '</div>';
   document.getElementById("btnNext").onclick=nextQuestion;
   if(revealDoneFor!==cq){
     revealDoneFor=cq;
     if(round.length>0 && round[0].pts>0){ launchFx(FXSET[cq%FXSET.length], 3400); }
+  }
+  if(advanceArmedFor!==cq){            // nach 3 Sekunden automatisch weiter
+    advanceArmedFor=cq;
+    if(advanceTimer) clearTimeout(advanceTimer);
+    advanceTimer=setTimeout(function(){ nextQuestion(); }, 3000);
   }
 }
 
@@ -702,7 +720,7 @@ function renderWelcome(){
   main.innerHTML=
     '<div class="card center">'+
       '<h1 class="serif" style="color:var(--navy);font-size:clamp(2rem,5vw,3.4rem)">Live-Quiz zur Abweichungsanalyse</h1>'+
-      '<p class="muted" style="font-size:1.3rem;margin-top:10px">7 Fragen, Echtzeit auf allen Handys. Fuer den Beamer optimiert.</p>'+
+      '<p class="muted" style="font-size:1.3rem;margin-top:10px">7 Fragen, Echtzeit auf allen Handys. Für den Beamer optimiert.</p>'+
       '<div class="btnrow"><button class="btn green" id="btnNew">Neues Spiel starten</button></div>'+
       '<div id="conn" class="connbadge">Verbindung wird geprüft ...</div>'+
       '<div id="msg" class="msgbox" style="display:none"></div>'+
