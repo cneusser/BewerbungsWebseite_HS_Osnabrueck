@@ -43,9 +43,12 @@
   .fit li::before{content:"";position:absolute;left:0;top:.55rem;width:9px;height:9px;background:var(--gold)}
   .fit li b{color:var(--navy)}
   .pull{border-left:4px solid var(--gold);background:var(--panel);padding:.8rem 1.1rem;border-radius:0 8px 8px 0;font-family:'Cambria',Georgia,serif;font-size:1.1rem;color:var(--navy);margin:.4rem 0 .2rem}
-  .photos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:.7rem}
-  @media(max-width:680px){.photos{grid-template-columns:1fr}}
-  .photos .ph{background:var(--panel);border:1px dashed var(--line);border-radius:10px;min-height:150px;display:flex;align-items:center;justify-content:center;color:var(--slate);font-size:.85rem;text-align:center;padding:1rem}
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-top:.8rem}
+  @media(max-width:860px){.gallery{grid-template-columns:1fr 1fr}}
+  @media(max-width:460px){.gallery{grid-template-columns:1fr}}
+  .gallery figure{margin:0}
+  .gallery img{width:100%;height:170px;object-fit:cover;border-radius:10px;border:1px solid var(--line);display:block}
+  .gallery figcaption{font-size:.76rem;color:var(--slate);margin-top:.35rem;line-height:1.3}
   footer{background:var(--navy);color:#cfd8ea;font-size:.82rem;padding:1.3rem;text-align:center;margin-top:1.4rem}
   .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.5rem}
   footer a{color:var(--gold)}
@@ -69,7 +72,7 @@
   </div>
   <figure>
     <img src="foto_vortrag.jpg" alt="Dr. Christian Neusser bei einem Vortrag">
-    <figcaption>Vortrag an der Henley Business School, 2025.</figcaption>
+    <figcaption>Vortrag auf der IERC-Konferenz, Saudi-Arabien, 2025.</figcaption>
   </figure>
 </div>
 
@@ -92,6 +95,7 @@
       <div class="tile"><h3>Was bleibt</h3><p>Mut zur Entscheidung unter Unsicherheit, ein Gefühl für Zahlen und die Erfahrung, dass Scheitern im Kleinen der beste Lehrmeister ist.</p></div>
     </div>
     <p>Dieses Format möchte ich nach Osnabrück mitbringen und an die Gründungs- und Transferkultur der Hochschule andocken. Es passt zu einer anwendungsorientierten Hochschule wie kaum ein zweites.</p>
+    <p><a href="https://www.5-euro-business.de" target="_blank" rel="noopener" style="display:inline-block;background:var(--gold);color:var(--navy);text-decoration:none;font-weight:700;border-radius:9px;padding:.55rem 1.1rem;font-size:.9rem">Mehr zum Venture-Lab und 5-Euro-Business &rarr;</a></p>
   </section>
 
   <section>
@@ -118,10 +122,11 @@
     <div class="kick"><span class="sq"></span> MEHR VON MIR</div>
     <h2>Weiterlesen und Kennenlernen</h2>
     <p>Die ausführliche <a href="bewerbung.html">Bewerbungsseite</a> zeigt Werdegang, Lehre und Forschung im Detail. Die <a href="probelehrveranstaltung.html">Probelehrveranstaltung</a> können Sie interaktiv erleben. Ich freue mich auf das Gespräch mit der Berufungskommission.</p>
-    <!-- Weitere Fotos koennen hier eingefuegt werden, einfach als foto_2.jpg / foto_3.jpg in den Ordner legen und die Platzhalter ersetzen. -->
-    <div class="photos">
-      <div class="ph">Platz für ein Lehr-Foto (z. B. Venture-Lab oder Seminar). Datei als foto_lehre.jpg in den Ordner legen.</div>
-      <div class="ph">Platz für ein Portrait oder ein Foto aus der Praxis. Datei als foto_portrait.jpg in den Ordner legen.</div>
+    <div class="gallery">
+      <figure><img src="foto_lehre.jpg" alt="Mit Studierenden in einem Familienunternehmen"><figcaption>Mit Studierenden zu Gast in einem Familienunternehmen der Region.</figcaption></figure>
+      <figure><img src="foto_forschung.jpg" alt="Austausch in der Forschungscommunity"><figcaption>Austausch in der internationalen Forschungscommunity.</figcaption></figure>
+      <figure><img src="foto_dba.jpg" alt="DBA-Graduierung Henley"><figcaption>DBA-Graduierung, Henley Business School / University of Reading.</figcaption></figure>
+      <figure><img src="foto_familie.jpg" alt="Privat mit der Familie"><figcaption>Privat: unterwegs mit den Kindern.</figcaption></figure>
     </div>
   </section>
 

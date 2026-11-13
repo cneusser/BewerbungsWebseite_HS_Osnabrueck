@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live-Quiz - Abweichungsanalyse - Hochschule Osnabrueck</title>
+<style>
+  :root{--navy:#1A2C5A;--navy2:#26386B;--gold:#B39058;--gold2:#86683A;--slate:#62708A;--ink:#252629;--panel:#F2F4F8;--ice:#C1D1E8;--line:#C7D0DE;--green:#1E7A52;--red:#B23A2E;--bronze:#A6611E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+  h1,h2,h3,.big{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,9px);grid-template-rows:repeat(2,9px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:9px;height:9px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--navy);color:#fff;padding:.9rem 1.1rem;border-bottom:3px solid var(--gold)}
+  .top{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+  .brand{display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700}
+  .nav a{color:#dce3f0;text-decoration:none;font-size:.8rem;margin-left:.8rem}
+  .nav a:hover{color:var(--gold)}
+  main{flex:1;width:100%;max-width:1000px;margin:0 auto;padding:1.4rem 1rem 2rem}
+  .screen{display:none}
+  .screen.on{display:block}
+  .ey{color:var(--gold2);font-size:.78rem;font-weight:700;letter-spacing:2px;margin-bottom:.5rem}
+  h1.title{color:var(--navy);font-size:2rem;margin-bottom:.4rem}
+  p.sub{color:var(--slate);font-size:1rem;margin-bottom:1.2rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.5rem;box-shadow:0 2px 12px rgba(26,44,90,.07)}
+  label.fl{display:block;font-size:.85rem;color:var(--slate);margin:.7rem 0 .25rem}
+  .teamrow{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem}
+  .teamrow input{flex:1;padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:9px;font-size:1.05rem}
+  .teamrow button{flex:none;border:0;background:var(--panel);color:var(--slate);border-radius:9px;width:2.6rem;height:2.6rem;font-size:1.3rem;cursor:pointer}
+  .teamrow button:hover{background:#e7ebf3;color:var(--red)}
+  .btn{display:inline-block;border:0;border-radius:11px;padding:.8rem 1.5rem;font-size:1.05rem;font-weight:700;cursor:pointer;background:var(--gold);color:var(--navy)}
+  .btn:hover{background:var(--gold2);color:#fff}
+  .btn.ghost{background:var(--panel);color:var(--navy)}
+  .btn.ghost:hover{background:#e7ebf3}
+  .btn.big{font-size:1.3rem;padding:1rem 2.2rem}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .addbtn{margin:.4rem 0 1rem}
+  .qmeta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+  .qmeta .n{color:var(--gold2);font-weight:700;letter-spacing:2px;font-size:.85rem}
+  .qmeta .sc{font-size:.85rem;color:var(--slate)}
+  .qtext{font-family:'Cambria',Georgia,serif;color:var(--navy);font-size:2rem;line-height:1.25;margin:.3rem 0 1rem}
+  .timerwrap{height:14px;background:var(--ice);border-radius:8px;overflow:hidden;margin-bottom:1.2rem}
+  .timerbar{height:100%;width:100%;background:var(--green);transition:width 1s linear}
+  .timerbar.warn{background:var(--bronze)}
+  .timerbar.crit{background:var(--red)}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+  @media(max-width:620px){.opts{grid-template-columns:1fr}.qtext{font-size:1.5rem}}
+  .opt{border:0;border-radius:12px;padding:1.3rem 1.2rem;font-size:1.3rem;font-weight:600;color:#fff;text-align:left;min-height:84px;display:flex;align-items:center;gap:.8rem;cursor:default;opacity:1;transition:opacity .25s,transform .15s,box-shadow .2s}
+  .opt .lead{font-family:'Cambria',Georgia,serif;font-size:1.4rem;opacity:.85;flex:none}
+  .opt.c0{background:var(--navy)} .opt.c1{background:var(--bronze)} .opt.c2{background:var(--green)} .opt.c3{background:var(--slate)}
+  .opt.dim{opacity:.32}
+  .opt.correct{box-shadow:0 0 0 4px var(--gold),0 6px 18px rgba(26,44,90,.25);opacity:1;transform:translateY(-2px)}
+  .expl{background:var(--panel);border-left:4px solid var(--gold);border-radius:0 9px 9px 0;padding:.9rem 1.1rem;margin:1.1rem 0;font-size:1.05rem;display:none}
+  .expl.on{display:block}
+  .score-grid{display:grid;grid-template-columns:1fr;gap:.6rem;margin-top:1rem}
+  .scorerow{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;padding:.6rem .8rem}
+  .scorerow .tn{font-weight:700;color:var(--navy);flex:1;min-width:120px;font-size:1.05rem}
+  .sbtn{border:0;border-radius:8px;padding:.5rem .8rem;font-size:.85rem;font-weight:700;cursor:pointer}
+  .sbtn.fast{background:#e8f2ec;color:var(--green)} .sbtn.ok{background:var(--ice);color:var(--navy)} .sbtn.no{background:#f6e4e1;color:var(--red)}
+  .sbtn.sel{outline:3px solid var(--gold);outline-offset:1px}
+  .lead-list{list-style:none;margin:1rem 0}
+  .lead-item{display:flex;align-items:center;gap:.9rem;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.9rem 1.1rem;margin-bottom:.6rem;transition:transform .5s ease,box-shadow .3s}
+  .lead-item .rk{font-family:'Cambria',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--gold2);width:2.2rem;text-align:center;flex:none}
+  .lead-item .nm{flex:1;font-size:1.3rem;font-weight:700;color:var(--navy)}
+  .lead-item .pts{font-size:1.4rem;font-weight:800;color:var(--navy);font-family:'Cambria',Georgia,serif}
+  .lead-item .dl{font-size:.85rem;color:var(--green);font-weight:700;margin-left:.5rem}
+  .lead-item.top{box-shadow:0 0 0 3px var(--gold),0 6px 18px rgba(26,44,90,.15)}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:1rem;margin:1.6rem 0}
+  .pcol{text-align:center;flex:1;max-width:220px}
+  .pcol .pname{font-weight:700;color:var(--navy);font-size:1.2rem;margin-bottom:.4rem}
+  .pcol .pbar{border-radius:10px 10px 0 0;color:#fff;font-family:'Cambria',Georgia,serif;font-weight:800;font-size:1.5rem;display:flex;align-items:flex-start;justify-content:center;padding-top:.7rem}
+  .pcol.p1 .pbar{background:var(--gold);height:150px} .pcol.p2 .pbar{background:var(--slate);height:110px} .pcol.p3 .pbar{background:var(--bronze);height:80px}
+  .pcol .ppts{font-weight:800;color:var(--navy);margin-top:.3rem;font-size:1.1rem}
+  .center{text-align:center;margin-top:1.2rem}
+  .hint{font-size:.85rem;color:var(--slate);margin-top:.6rem}
+  footer{background:var(--navy);color:#cfd8ea;font-size:.8rem;padding:1.1rem;text-align:center;margin-top:1.4rem}
+  .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.4rem}
+  .confetti{position:fixed;top:-10px;width:9px;height:14px;opacity:.9;z-index:50;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:0}}
+</style>
+</head>
+<body>
+<header><div class="top">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <nav class="nav">
+    <a href="probelehrveranstaltung.html">Uebersicht</a>
+    <a href="cockpit.html">Cockpit</a>
+    <a href="tutorial.html">Lernportal</a>
+    <a href="competition.html">Einzel-Quiz</a>
+  </nav>
+</div></header>
+
+<main>
+  <!-- SETUP -->
+  <section id="setup" class="screen on">
+    <div class="ey">LIVE-QUIZ ZUR PROBELEHRVERANSTALTUNG</div>
+    <h1 class="title">Gemeinsam spielen: sechs Fragen, eine Rangliste</h1>
+    <p class="sub">Der Dozent moderiert, die Gruppen beraten und zeigen ihre Antwort. Nach jeder Frage sehen alle den Zwischenstand. Kein Login, kein Internet.</p>
+    <div class="card">
+      <h3 style="color:var(--navy);margin-bottom:.3rem">Gruppen anlegen</h3>
+      <p class="hint">Zwei bis sechs Gruppen. Namen frei vergeben, zum Beispiel nach Tischreihe.</p>
+      <div id="teamlist"></div>
+      <button class="btn ghost addbtn" id="addTeam">+ Gruppe hinzufuegen</button>
+      <div><button class="btn big" id="startBtn">Spiel starten</button></div>
+      <p class="hint" id="setupHint"></p>
+    </div>
+  </section>
+
+  <!-- QUESTION -->
+  <section id="play" class="screen">
+    <div class="qmeta"><span class="n" id="qnum"></span><span class="sc" id="qsc"></span></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="timerwrap"><div class="timerbar" id="tbar"></div></div>
+    <div class="opts" id="opts"></div>
+    <div class="expl" id="expl"></div>
+    <div class="center" id="revealWrap"><button class="btn big" id="revealBtn">Aufloesen</button></div>
+
+    <div id="scoreWrap" style="display:none">
+      <h3 style="color:var(--navy);margin-top:1.4rem">Punkte vergeben</h3>
+      <p class="hint">Je Gruppe einen Knopf waehlen. Schnell und richtig gibt einen Bonus.</p>
+      <div class="score-grid" id="scoreGrid"></div>
+      <div class="center"><button class="btn big" id="toBoard" disabled>Zwischenstand zeigen</button></div>
+    </div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section id="board" class="screen">
+    <div class="ey" id="boardEy">ZWISCHENSTAND</div>
+    <h1 class="title">Rangliste</h1>
+    <ul class="lead-list" id="leadList"></ul>
+    <div class="center"><button class="btn big" id="nextBtn">Weiter</button></div>
+  </section>
+
+  <!-- PODIUM -->
+  <section id="podium" class="screen">
+    <div class="ey">ENDERGEBNIS</div>
+    <h1 class="title">Das Siegertreppchen</h1>
+    <div class="podium" id="podiumBox"></div>
+    <ul class="lead-list" id="finalList"></ul>
+    <div class="center"><button class="btn big" id="againBtn">Neues Spiel</button></div>
+  </section>
+</main>
+
+<footer>
+  <div class="fbrand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Modul Controlling (22B0140) - Hochschule Osnabrueck - Live-Quiz zur Probelehrveranstaltung
+</footer>
+
+<script>
+var QS=[
+ {q:"Was sind Sollkosten?",opts:["Die Plankosten aus dem starren Jahresbudget","Proportionaler Satz mal Istbeschaeftigung plus fixe Plankosten","Die tatsaechlich angefallenen Istkosten","Umsatz minus variable Kosten"],c:1,e:"Sollkosten sind der flexible Massstab: der proportionale Teil atmet mit der Auslastung, die Fixkosten bleiben."},
+ {q:"Oktober, 600 Mh, saubere Arbeit: Wie hoch ist die Verbrauchsabweichung?",opts:["0 Euro","8.000 Euro","12.000 Euro","20.000 Euro"],c:0,e:"Istkosten gleich Sollkosten (38.000 Euro), also Verbrauchsabweichung 0. Die 8.000 Euro sind reine Beschaeftigung."},
+ {q:"Welche Abweichung verantwortet die Kostenstelle selbst?",opts:["Die Beschaeftigungsabweichung","Die Verbrauchsabweichung","Beide gleichermassen","Keine von beiden"],c:1,e:"Die Verbrauchsabweichung misst Wirtschaftlichkeit (Mehrverbrauch, Ausschuss). Die Beschaeftigung kommt aus der Auslastung."},
+ {q:"Die 8.000 Euro im KI-Bericht sind in Wahrheit ...?",opts:["Ineffiziente Fertigung","Beschaeftigungsabweichung, reine Leerkosten der Auslastung","Ein Rechenfehler der KI","Materialmehrverbrauch"],c:1,e:"Reine Leerkosten der Auslastung (Phantom-Abweichung), nicht die Schuld der Kostenstelle."},
+ {q:"Warum kennt die Grenzplankostenrechnung keine Beschaeftigungsabweichung?",opts:["Weil sie keine Fixkosten hat","Weil nur proportionale Kosten auf den Kostentraeger verrechnet werden, Fixkosten bleiben als Block","Weil sie die Istbeschaeftigung ignoriert","Weil sie nur im Monatsbericht auftaucht"],c:1,e:"Da keine Fixkosten je Stunde verrechnet werden, kann auch keine Unterdeckung je Stunde entstehen."},
+ {q:"Was war der Fehler der Controlling-KI?",opts:["Sie hat falsch gerechnet","Sie hat richtig gerechnet, aber falsch gedeutet","Sie hat die Fixkosten vergessen","Sie hat den falschen Monat genommen"],c:1,e:"Die Rechnung stimmte, die Deutung nicht: Beschaeftigung wurde als Verbrauch etikettiert. Deshalb KI pruefen statt KI glauben."}
+];
+var DURATION=30;
+var teams=[], qi=0, timer=null, scored={}, revealed=false;
+var $=function(id){return document.getElementById(id);};
+function show(id){var s=document.querySelectorAll('.screen');for(var i=0;i<s.length;i++)s[i].classList.remove('on');$(id).classList.add('on');window.scrollTo(0,0);}
+
+// ---- setup ----
+function teamInput(val){
+  var row=document.createElement('div');row.className='teamrow';
+  var inp=document.createElement('input');inp.type='text';inp.value=val||'';inp.placeholder='Gruppenname';
+  var del=document.createElement('button');del.innerHTML='&times;';del.title='entfernen';
+  del.onclick=function(){row.parentNode.removeChild(row);};
+  row.appendChild(inp);row.appendChild(del);
+  return row;
+}
+function initSetup(){
+  var tl=$('teamlist');tl.innerHTML='';
+  tl.appendChild(teamInput('Gruppe 1'));
+  tl.appendChild(teamInput('Gruppe 2'));
+  tl.appendChild(teamInput('Gruppe 3'));
+}
+$('addTeam').onclick=function(){
+  var tl=$('teamlist');
+  if(tl.children.length>=6){$('setupHint').textContent='Maximal sechs Gruppen.';return;}
+  $('setupHint').textContent='';
+  tl.appendChild(teamInput('Gruppe '+(tl.children.length+1)));
+};
+$('startBtn').onclick=function(){
+  var inputs=$('teamlist').querySelectorAll('input');
+  teams=[];
+  for(var i=0;i<inputs.length;i++){var n=inputs[i].value.trim();if(n)teams.push({name:n,score:0,delta:0});}
+  if(teams.length<2){$('setupHint').textContent='Bitte mindestens zwei Gruppen mit Namen anlegen.';return;}
+  qi=0;startQuestion();
+};
+
+// ---- question ----
+function startQuestion(){
+  revealed=false;scored={};
+  var q=QS[qi];
+  $('qnum').textContent='FRAGE '+(qi+1)+' VON '+QS.length;
+  $('qsc').textContent=teams.length+' Gruppen';
+  $('qtext').textContent=q.q;
+  var o=$('opts');o.innerHTML='';
+  var leads=['A','B','C','D'];
+  for(var k=0;k<q.opts.length;k++){
+    var b=document.createElement('div');b.className='opt c'+k;b.setAttribute('data-k',k);
+    b.innerHTML='<span class="lead">'+leads[k]+'</span><span>'+q.opts[k]+'</span>';
+    o.appendChild(b);
+  }
+  $('expl').className='expl';$('expl').textContent='';
+  $('revealWrap').style.display='block';
+  $('scoreWrap').style.display='none';
+  show('play');
+  startTimer();
+}
+function startTimer(){
+  var bar=$('tbar');bar.className='timerbar';bar.style.transition='none';bar.style.width='100%';
+  var left=DURATION;
+  void bar.offsetWidth;bar.style.transition='width 1s linear';
+  if(timer)clearInterval(timer);
+  timer=setInterval(function(){
+    left--;
+    var pct=Math.max(0,left/DURATION*100);
+    bar.style.width=pct+'%';
+    if(pct<=20)bar.className='timerbar crit';else if(pct<=50)bar.className='timerbar warn';
+    if(left<=0){clearInterval(timer);}
+  },1000);
+  setTimeout(function(){bar.style.width=((DURATION-1)/DURATION*100)+'%';},50);
+}
+$('revealBtn').onclick=function(){
+  if(revealed)return;revealed=true;
+  if(timer)clearInterval(timer);
+  var q=QS[qi];
+  var opts=$('opts').children;
+  for(var k=0;k<opts.length;k++){
+    if(k===q.c)opts[k].classList.add('correct');else opts[k].classList.add('dim');
+  }
+  var ex=$('expl');ex.innerHTML='<b>Richtig: '+String.fromCharCode(65+q.c)+'.</b> '+q.e;ex.classList.add('on');
+  $('revealWrap').style.display='none';
+  buildScoring();
+  $('scoreWrap').style.display='block';
+};
+function buildScoring(){
+  var g=$('scoreGrid');g.innerHTML='';
+  for(var i=0;i<teams.length;i++){
+    (function(i){
+      var row=document.createElement('div');row.className='scorerow';
+      var nm=document.createElement('span');nm.className='tn';nm.textContent=teams[i].name;
+      var fast=mkBtn('schnell + richtig (150)','fast',150,i,row);
+      var ok=mkBtn('richtig (100)','ok',100,i,row);
+      var no=mkBtn('falsch (0)','no',0,i,row);
+      row.appendChild(nm);row.appendChild(fast);row.appendChild(ok);row.appendChild(no);
+      g.appendChild(row);
+    })(i);
+  }
+  checkAllScored();
+}
+function mkBtn(label,cls,pts,i,row){
+  var b=document.createElement('button');b.className='sbtn '+cls;b.textContent=label;
+  b.onclick=function(){
+    scored[i]=pts;
+    var sib=row.querySelectorAll('.sbtn');for(var j=0;j<sib.length;j++)sib[j].classList.remove('sel');
+    b.classList.add('sel');
+    checkAllScored();
+  };
+  return b;
+}
+function checkAllScored(){
+  var all=true;
+  for(var i=0;i<teams.length;i++){if(typeof scored[i]==='undefined'){all=false;break;}}
+  $('toBoard').disabled=!all;
+}
+$('toBoard').onclick=function(){
+  for(var i=0;i<teams.length;i++){teams[i].delta=scored[i]||0;teams[i].score+=teams[i].delta;}
+  renderBoard(false);
+};
+
+// ---- leaderboard ----
+function renderBoard(isFinal){
+  var listId=isFinal?'finalList':'leadList';
+  var sorted=teams.slice().sort(function(a,b){return b.score-a.score;});
+  var ul=$(listId);ul.innerHTML='';
+  for(var i=0;i<sorted.length;i++){
+    var t=sorted[i];
+    var li=document.createElement('li');li.className='lead-item'+(i===0?' top':'');
+    var dl=t.delta>0?('<span class="dl">+'+t.delta+'</span>'):'';
+    li.innerHTML='<span class="rk">'+(i+1)+'</span><span class="nm">'+t.name+'</span><span class="pts">'+t.score+dl+'</span>';
+    ul.appendChild(li);
+  }
+  if(!isFinal){
+    $('boardEy').textContent='ZWISCHENSTAND NACH FRAGE '+(qi+1);
+    $('nextBtn').textContent=(qi>=QS.length-1)?'Zum Endergebnis':'Weiter zu Frage '+(qi+2);
+    show('board');
+  }
+}
+$('nextBtn').onclick=function(){
+  if(qi>=QS.length-1){renderPodium();}
+  else{qi++;startQuestion();}
+};
+
+// ---- podium ----
+function renderPodium(){
+  var sorted=teams.slice().sort(function(a,b){return b.score-a.score;});
+  var box=$('podiumBox');box.innerHTML='';
+  var order=[1,0,2];
+  for(var x=0;x<order.length;x++){
+    var idx=order[x];if(idx>=sorted.length)continue;
+    var t=sorted[idx];
+    var col=document.createElement('div');col.className='pcol p'+(idx+1);
+    col.innerHTML='<div class="pname">'+t.name+'</div><div class="pbar">'+(idx+1)+'</div><div class="ppts">'+t.score+' Punkte</div>';
+    box.appendChild(col);
+  }
+  renderBoard(true);
+  show('podium');
+  confetti();
+}
+function confetti(){
+  var cols=['#B39058','#1A2C5A','#1E7A52','#A6611E'];
+  for(var i=0;i<60;i++){
+    (function(i){
+      var c=document.createElement('div');c.className='confetti';
+      c.style.left=(Math.random()*100)+'vw';
+      c.style.background=cols[i%cols.length];
+      c.style.animationDuration=(2+Math.random()*2)+'s';
+      c.style.animationDelay=(Math.random()*0.6)+'s';
+      document.body.appendChild(c);
+      setTimeout(function(){if(c.parentNode)c.parentNode.removeChild(c);},4200);
+    })(i);
+  }
+}
+$('againBtn').onclick=function(){initSetup();$('setupHint').textContent='';show('setup');};
+
+initSetup();
+</script>
+</body>
+</html>

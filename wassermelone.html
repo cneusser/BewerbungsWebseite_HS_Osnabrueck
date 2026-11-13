@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Watermelon Test · Strategic Controlling · HS Osnabrück</title>
+<style>
+  :root{--navy:#1A2C5A;--navy2:#26386B;--gold:#B39058;--gold2:#86683A;--slate:#62708A;--ink:#252629;--panel:#F2F4F8;--ice:#C1D1E8;--line:#C7D0DE;--green:#1E7A52;--red:#B23A2E;--bronze:#A6611E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.55}
+  h1,h2,h3{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  a{color:var(--navy)}
+  .wrap{max-width:960px;margin:0 auto;padding:0 1rem}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:8px;height:8px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--navy);color:#fff;padding:1.3rem 1.2rem;border-bottom:3px solid var(--gold)}
+  .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem}
+  .brand{display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700}
+  .nav a{color:#dce3f0;text-decoration:none;font-size:.82rem;margin-left:.9rem}
+  .nav a:hover{color:var(--gold)}
+  main{max-width:960px;margin:1.5rem auto 2rem;padding:0 1rem}
+  .ey{color:var(--gold2);font-size:.75rem;font-weight:700;letter-spacing:2px;margin-bottom:.4rem}
+  h1{color:var(--navy);font-size:1.8rem;margin-bottom:.4rem}
+  .intro{color:var(--ink);font-size:1.02rem;margin-bottom:1.3rem;max-width:720px}
+  .stage{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.3rem;box-shadow:0 2px 10px rgba(26,44,90,.06)}
+  .label{font-size:.78rem;letter-spacing:1.5px;color:var(--slate);font-weight:700;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem}
+  .label .sq{width:11px;height:11px;background:var(--gold);display:inline-block}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+  @media(max-width:760px){.cards{grid-template-columns:1fr 1fr}}
+  @media(max-width:460px){.cards{grid-template-columns:1fr}}
+  .kpi{border-radius:11px;padding:.9rem;border:1px solid;min-height:132px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .5s,background .5s,border-color .5s}
+  .kpi.green{background:#E8F2EC;border-color:#BFDCCB}
+  .kpi.red{background:#F6E7E4;border-color:#E3BdB6}
+  .kpi .h{font-size:.82rem;font-weight:700;color:var(--navy)}
+  .kpi .v{font-size:1.5rem;font-weight:800;font-family:'Cambria',Georgia,serif}
+  .kpi.green .v{color:var(--green)}
+  .kpi.red .v{color:var(--red)}
+  .kpi .s{font-size:.76rem;color:var(--slate)}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.3rem}
+  .dot.g{background:var(--green)} .dot.r{background:var(--red)}
+  .predict{margin:1.1rem 0 0;padding:1rem;background:var(--panel);border-radius:10px}
+  .predict p{font-size:.95rem;margin-bottom:.6rem;font-weight:600;color:var(--navy)}
+  .pbtns{display:flex;gap:.5rem;flex-wrap:wrap}
+  .pbtns button{border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:9px;padding:.5rem 1rem;font-size:1rem;font-weight:700;cursor:pointer;min-width:52px}
+  .pbtns button:hover{background:var(--navy);color:#fff}
+  .pbtns button.sel{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+  .cut{margin-top:1.1rem;text-align:center}
+  .cut button{background:var(--bronze);color:#fff;border:0;border-radius:10px;padding:.8rem 1.6rem;font-size:1.02rem;font-weight:700;cursor:pointer}
+  .cut button:hover{background:#8f5017}
+  .cut button:disabled{background:var(--line);color:var(--slate);cursor:not-allowed}
+  .reveal{margin-top:1.2rem;display:none}
+  .reveal.show{display:block}
+  .verdict{background:var(--navy);color:#eaf0f8;border-radius:11px;padding:1.1rem 1.2rem;margin-top:1.1rem}
+  .verdict b{color:var(--gold)}
+  .foot-note{font-size:.85rem;color:var(--slate);margin-top:1rem}
+  footer{background:var(--navy);color:#cfd8ea;font-size:.82rem;padding:1.3rem;text-align:center;margin-top:1.5rem}
+  .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.5rem}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="top">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <nav class="nav">
+    <a href="probelehrveranstaltung.html">Overview</a>
+    <a href="cockpit.html">Cockpit</a>
+    <a href="tutorial.html">Study portal</a>
+  </nav>
+</div></div></header>
+
+<main>
+  <div class="ey">TALK 2 · STRATEGIC CONTROLLING · INTERACTION</div>
+  <h1>The Watermelon Test</h1>
+  <p class="intro">A quarterly report, the way the management board sees it. Everything in the green. The only question is: does it hold below the surface? Make your guess first, then we cut the melon open.</p>
+
+  <div class="stage">
+    <div class="label"><span class="sq"></span> Quarterly report Q3 · the surface (lagging indicators)</div>
+    <div class="cards" id="cards">
+      <div class="kpi green" data-i="0"><div><div class="h">Quarterly profit</div><div class="v" id="v0">+8 %</div></div><div class="s"><span class="dot g"></span>on target</div></div>
+      <div class="kpi green" data-i="1"><div><div class="h">Margin</div><div class="v" id="v1">stable</div></div><div class="s"><span class="dot g"></span>on target</div></div>
+      <div class="kpi green" data-i="2"><div><div class="h">Liquidity</div><div class="v" id="v2">solid</div></div><div class="s"><span class="dot g"></span>on target</div></div>
+      <div class="kpi green" data-i="3"><div><div class="h">Cost vs. budget</div><div class="v" id="v3">on plan</div></div><div class="s"><span class="dot g"></span>on target</div></div>
+    </div>
+
+    <div class="predict" id="predict">
+      <p>Your guess: how many of these four green indicators are actually red below the surface?</p>
+      <div class="pbtns" id="pbtns">
+        <button data-p="0">0</button><button data-p="1">1</button><button data-p="2">2</button><button data-p="3">3</button><button data-p="4">4</button>
+      </div>
+    </div>
+
+    <div class="cut">
+      <button id="cutBtn" disabled>Look below the surface</button>
+    </div>
+
+    <div class="reveal" id="reveal">
+      <div class="label" style="margin-top:.4rem"><span class="sq"></span> The inside (leading drivers)</div>
+      <div class="cards">
+        <div class="kpi red"><div><div class="h">Customer satisfaction</div><div class="v">slipping</div></div><div class="s"><span class="dot r"></span>down for two quarters</div></div>
+        <div class="kpi red"><div><div class="h">Innovation pipeline</div><div class="v">empty</div></div><div class="s"><span class="dot r"></span>no new projects</div></div>
+        <div class="kpi red"><div><div class="h">Staff turnover</div><div class="v">rising</div></div><div class="s"><span class="dot r"></span>key people are leaving</div></div>
+        <div class="kpi red"><div><div class="h">Patent protection</div><div class="v">expiring</div></div><div class="s"><span class="dot r"></span>in two years, rival is scaling</div></div>
+      </div>
+      <div class="verdict" id="verdict">
+        <b>All four.</b> Green on the outside, red on the inside, just like a watermelon. The lagging financial figures stay green long after the leading drivers have turned red. By the time the financial number flips, the decision window has usually already closed.
+      </div>
+      <p class="foot-note">The didactic point: operational controlling watches the result (lagging). Strategic controlling watches the drivers (leading). More in the <a href="261117_Fachvortrag_EN.pdf">English slide deck</a> and the <a href="261117_Fachartikel_Entwurf.pdf">research article draft</a>.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="fbrand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Talk 2 · Basics of Strategic Controlling · Osnabrück University of Applied Sciences · Reference WiSo 307-2 · nothing is stored or sent
+</footer>
+
+<script>
+(function(){
+  var pick=null, cutBtn=document.getElementById('cutBtn');
+  document.querySelectorAll('#pbtns button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#pbtns button').forEach(function(x){x.classList.remove('sel');});
+      b.classList.add('sel'); pick=+b.dataset.p; cutBtn.disabled=false;
+    });
+  });
+  cutBtn.addEventListener('click',function(){
+    document.querySelectorAll('#cards .kpi').forEach(function(k){ k.classList.remove('green'); k.classList.add('red'); });
+    document.getElementById('v0').textContent='illusion';
+    document.getElementById('v1').textContent='illusion';
+    document.getElementById('v2').textContent='illusion';
+    document.getElementById('v3').textContent='illusion';
+    document.getElementById('reveal').classList.add('show');
+    var ver=document.getElementById('verdict');
+    if(pick===4){ ver.innerHTML='<b>Good call, all four.</b> Green on the outside, red on the inside, just like a watermelon. The lagging financial figures stay green long after the leading drivers have turned red. By the time the financial number flips, the decision window has usually already closed.'; }
+    else { ver.innerHTML='<b>Your guess: '+pick+'. In fact, all four.</b> Green on the outside, red on the inside, just like a watermelon. The lagging financial figures stay green long after the leading drivers have turned red. By the time the financial number flips, the decision window has usually already closed.'; }
+    cutBtn.disabled=true; cutBtn.textContent='Cut open';
+    document.getElementById('reveal').scrollIntoView({behavior:'smooth',block:'center'});
+  });
+})();
+</script>
+</body>
+</html>

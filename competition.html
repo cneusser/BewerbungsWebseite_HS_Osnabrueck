@@ -116,9 +116,9 @@
   </section>
 
   <details>
-    <summary>Für den echten Kahoot-Einsatz im Hörsaal (Fragen zum Kopieren)</summary>
+    <summary>Für den Live-Einsatz im Hörsaal auf einer Quiz-Plattform (Fragen zum Kopieren)</summary>
     <div class="kh" id="khList"></div>
-    <p class="time" style="margin-top:.7rem">Hinweis: In Kahoot pro Frage die vier Optionen eintragen, die als richtig markierte Option anhaken und die Zeit setzen. Für echten Mehrspieler-Wettbewerb die Fragen so in ein Kahoot uebernehmen; dieses Quiz hier laeuft als Einzelgeraet-Challenge mit lokaler Bestenliste.</p>
+    <p class="time" style="margin-top:.7rem">Hinweis: Auf einer gängigen Live-Quiz-Plattform pro Frage die vier Optionen eintragen, die als richtig markierte Option anhaken und die Zeit setzen. Für echten Mehrspieler-Wettbewerb die Fragen so in eine Live-Quiz-Plattform uebernehmen; dieses Quiz hier laeuft als Einzelgeraet-Challenge mit lokaler Bestenliste.</p>
   </details>
 </main>
 
@@ -217,7 +217,7 @@ function restart(){ show('s-start'); $('pname').focus(); }
   let h='';
   QS.forEach((q,i)=>{ h+='<div class="item"><div class="qq">'+(i+1)+'. '+q.t+'</div>';
     if(q.o){ h+='<ul>'+q.o.map((o,k)=>'<li'+(k===q.c?' class="ok"':'')+'>'+KEYS[k]+') '+o+(k===q.c?'  (richtig)':'')+'</li>').join('')+'</ul>'; }
-    else { h+='<ul><li class="ok">Rechenfrage, richtige Antwort: '+q.num.toLocaleString('de-DE')+' Euro</li><li>In Kahoot als vier Antwortoptionen anlegen, eine davon = '+q.num.toLocaleString('de-DE')+'</li></ul>'; }
+    else { h+='<ul><li class="ok">Rechenfrage, richtige Antwort: '+q.num.toLocaleString('de-DE')+' Euro</li><li>Als vier Antwortoptionen anlegen, eine davon = '+q.num.toLocaleString('de-DE')+'</li></ul>'; }
     h+='<div class="time">Zeitvorschlag: '+q.time+' Sekunden</div></div>'; });
   var el=document.getElementById('khList'); if(el) el.innerHTML=h;
 })();
