@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abweichungs-Cockpit · Grenzplankostenrechnung · HS Osnabrück</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--petrol:#1A2C5A;--petrol2:#26386B;--teal:#1E7A52;--orange:#A6611E;--red:#B23A2E;--green:#1E7A52;--gold:#B39058;--gold2:#86683A;--panel:#F2F4F8;--ice:#C1D1E8;--ink:#252629;--slate:#62708A;--line:#C7D0DE;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.5}
+  h1,h2,h3{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:8px;height:8px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--petrol);color:#fff;padding:1.6rem 1.2rem;border-bottom:3px solid var(--gold)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1rem}
+  header h1{font-size:1.5rem;margin-bottom:.2rem}
+  header p{opacity:.85;font-size:.95rem}
+  .tag{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:.15rem .7rem;font-size:.78rem;margin-top:.6rem}
+  main{max-width:1100px;margin:1.2rem auto;padding:0 1rem}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 8px rgba(20,50,59,.06);padding:1.1rem 1.2rem;margin-bottom:1.1rem}
+  h2{color:var(--petrol);font-size:1.05rem;margin-bottom:.7rem}
+  .presets{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem}
+  .presets button{border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:8px;padding:.45rem .9rem;font-size:.9rem;font-weight:600;cursor:pointer}
+  .presets button:hover{background:var(--teal);color:#fff}
+  .presets button.phantom{border-color:var(--orange);color:var(--orange)}
+  .presets button.phantom:hover{background:var(--orange);color:#fff}
+  .params{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:.4rem}
+  .params label{display:block;font-size:.78rem;color:var(--slate);margin-bottom:.2rem}
+  .params input{width:100%;padding:.35rem .4rem;border:1px solid var(--line);border-radius:6px;font-size:.95rem}
+  .slider-row{margin:.9rem 0}
+  .slider-row .lbl{display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:.25rem}
+  .slider-row .lbl b{color:var(--petrol)}
+  input[type=range]{width:100%;accent-color:var(--teal)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem}
+  .stat{border-radius:10px;padding:.8rem;text-align:center;background:var(--panel)}
+  .stat .n{font-size:1.5rem;font-weight:700}
+  .stat .l{font-size:.78rem;color:var(--slate);margin-top:.15rem}
+  .stat.va .n{color:var(--petrol)} .stat.ba .n{color:var(--orange)} .stat.tot .n{color:var(--petrol)}
+  .verdict{font-size:.72rem;font-weight:700;border-radius:10px;padding:.05rem .45rem;display:inline-block;margin-top:.35rem}
+  .v-guenstig{background:#E4F2EA;color:var(--green)} .v-unguenstig{background:#F6E4E1;color:var(--red)} .v-neutral{background:var(--ice);color:var(--slate)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media(max-width:720px){.cols{grid-template-columns:1fr}}
+  .box{border-radius:10px;padding:1rem;border:1px solid var(--line)}
+  .box.voll{background:#F7EFE6;border-color:#E4CDB0} .box.grenz{background:#E8F2EC;border-color:#BFDCCB}
+  .box h3{font-size:.95rem;margin-bottom:.4rem} .box.voll h3{color:var(--orange)} .box.grenz h3{color:var(--teal)}
+  .big{font-size:2rem;font-weight:800;line-height:1.1}
+  .muted{color:var(--slate);font-size:.85rem}
+  .phantom-note{background:var(--petrol);color:#fff;border-radius:8px;padding:.7rem .9rem;margin-top:.8rem;font-size:.92rem}
+  .phantom-note b{color:var(--gold)}
+  .report-toggle{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;font-size:.9rem}
+  .lights{display:flex;gap:.6rem;flex-wrap:wrap}
+  .light{display:flex;align-items:center;gap:.4rem;font-size:.9rem}
+  .dot{width:14px;height:14px;border-radius:50%} .dot.red{background:var(--red)} .dot.green{background:var(--green)} .dot.amber{background:var(--gold)}
+  details{border:1px solid var(--line);border-radius:8px;padding:.6rem .8rem;margin-bottom:.5rem;background:#fff}
+  summary{cursor:pointer;font-weight:600;color:var(--petrol)}
+  details p{margin-top:.4rem;font-size:.9rem}
+  .quiz-opt{display:block;margin:.3rem 0;cursor:pointer}
+  .foot{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center}
+  .foot img{width:110px;height:110px;border:6px solid #fff;border-radius:8px;box-shadow:0 1px 6px rgba(0,0,0,.12)}
+  footer{background:var(--petrol);color:#cfe0e0;font-size:.82rem;padding:1.2rem;text-align:center;margin-top:1.5rem}
+  footer a{color:var(--gold)}
+  canvas{max-height:260px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div style="display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700;margin-bottom:.5rem"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <h1>Abweichungs-Cockpit</h1>
+  <p>Flexible Grenzplankostenrechnung nach Kilger und Plaut. Kostenstelle Dreherei (Zerspanung), angelehnt an einen Stahl- und Schmiedebetrieb der Region Osnabrück (GMH Gruppe). Ziehen Sie die Schieber und sehen Sie, wie die Abweichung entsteht, und wer sie zu verantworten hat.</p>
+  <span class="tag">Modul Controlling (22B0140) · Hochschule Osnabrück · 2. Semester</span>
+  <div style="margin-top:.7rem">
+    <a href="probelehrveranstaltung.html" style="display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-weight:700;border-radius:14px;padding:.35rem 1rem;font-size:.82rem">&larr; PLV-Übersicht</a>
+    <a href="tutorial.html" style="display:inline-block;margin-left:.4rem;background:var(--gold);color:var(--petrol);text-decoration:none;font-weight:700;border-radius:14px;padding:.35rem 1rem;font-size:.82rem">Zum Lernportal &rarr;</a>
+    <a href="quiz.html" style="display:inline-block;margin-left:.4rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff;text-decoration:none;font-weight:700;border-radius:14px;padding:.35rem 1rem;font-size:.82rem">Zum Selbsttest &rarr;</a>
+  </div>
+</div></header>
+
+<main>
+  <div class="card">
+    <h2>1 · Monat wählen oder frei einstellen</h2>
+    <div class="presets">
+      <button onclick="preset(1000,0)">September · Plan erfüllt</button>
+      <button class="phantom" onclick="preset(600,0)">Oktober · die Phantom-Abweichung</button>
+      <button onclick="preset(800,3000)">November · Übungsfall</button>
+    </div>
+    <div class="params">
+      <div><label>Planbeschäftigung (Mh)</label><input id="plan" type="number" value="1000"></div>
+      <div><label>Proportionaler Satz (€/Mh)</label><input id="prop" type="number" value="30"></div>
+      <div><label>Fixe Plankosten (€)</label><input id="fix" type="number" value="20000"></div>
+    </div>
+    <div class="slider-row">
+      <div class="lbl"><span>Istbeschäftigung</span><b><span id="istLbl">600</span> Mh</b></div>
+      <input id="ist" type="range" min="0" max="1200" step="20" value="600">
+    </div>
+    <div class="slider-row">
+      <div class="lbl"><span>Mehr- oder Minderverbrauch (verändert die Istkosten)</span><b><span id="dvLbl">0</span> €</b></div>
+      <input id="dv" type="range" min="-6000" max="6000" step="250" value="0">
+      <div class="muted">Istkosten = Sollkosten + Mehrverbrauch = <b id="istkosten">38.000 €</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2 · Die Abweichung, live zerlegt</h2>
+    <div class="grid">
+      <div class="stat"><div class="n" id="s-soll">38.000</div><div class="l">Sollkosten (€)</div></div>
+      <div class="stat"><div class="n" id="s-verr">30.000</div><div class="l">Verrechnete Plankosten (€)</div></div>
+      <div class="stat va"><div class="n" id="s-va">0</div><div class="l">Verbrauchsabweichung (€)</div><div id="v-va" class="verdict v-neutral">neutral</div></div>
+      <div class="stat ba"><div class="n" id="s-ba">8.000</div><div class="l">Beschäftigungsabweichung (€)</div><div class="verdict v-neutral">Leerkosten</div></div>
+    </div>
+    <canvas id="wf" style="margin-top:1rem"></canvas>
+    <div class="muted" style="text-align:center;margin-top:.3rem">Wasserfall: verrechnete Plankosten, plus Beschäftigungsabweichung ergibt die Sollkosten, plus Verbrauchsabweichung ergibt die Istkosten.</div>
+  </div>
+
+  <div class="card">
+    <h2>3 · Wer bekommt die Abweichung angelastet?</h2>
+    <div class="cols">
+      <div class="box voll">
+        <h3>Vollkostenrechnung</h3>
+        <div class="big" id="voll-n">8.000 €</div>
+        <div class="muted">wird dem Kostenstellenleiter angelastet (Istkosten minus verrechnete Plankosten)</div>
+      </div>
+      <div class="box grenz">
+        <h3>Grenzplankostenrechnung (Kilger/Plaut)</h3>
+        <div class="big" id="grenz-n">0 €</div>
+        <div class="muted">nur die Verbrauchsabweichung; die Fixkosten bleiben als Block, keine Beschäftigungsabweichung</div>
+      </div>
+    </div>
+    <div class="phantom-note" id="phantom">Phantom-Abweichung: <b id="phantom-n">8.000 €</b> werden in der Vollkostenrechnung angelastet, obwohl die Stelle gleich effizient gearbeitet hat. Das sind reine Leerkosten der Auslastung.</div>
+  </div>
+
+  <div class="card">
+    <h2>4 · Der Monatsbericht: aggregiert oder aufgeschlüsselt?</h2>
+    <div class="report-toggle"><input type="checkbox" id="split" checked onchange="render()"><label for="split">aufgeschlüsselt anzeigen (statt nur einer Gesamtzahl)</label></div>
+    <div id="report"></div>
+    <div class="muted" style="margin-top:.5rem">Der aggregierte Bericht ist außen grün und innen rot („Wassermelone“): Eine einzige Zahl verdeckt, dass das eigentliche Problem die Auslastung ist, nicht die Arbeit der Stelle.</div>
+  </div>
+
+  <div class="card">
+    <h2>5 · Kurzer Selbsttest</h2>
+    <details><summary>Bei 600 Mh und sauberer Arbeit: Wie hoch ist die Verbrauchsabweichung?</summary>
+      <p>0 €. Istkosten gleich Sollkosten (38.000 €). Die 8.000 € im Bericht sind reine Beschäftigungsabweichung.</p></details>
+    <details><summary>Warum kennt die Grenzplankostenrechnung keine Beschäftigungsabweichung?</summary>
+      <p>Weil nur die proportionalen Kosten auf den Kostenträger verrechnet werden. Die Fixkosten werden nicht auf Stunden verteilt, sondern als Block behandelt, also kann auch keine Unterdeckung je Stunde entstehen.</p></details>
+    <details><summary>Formative Aufgabe: Bei welcher Istbeschäftigung erreichen die Leerkosten 10.000 €?</summary>
+      <p>Leerkosten = Fix mal (1 minus Ist durch Plan). 10.000 = 20.000 mal (1 minus Ist durch 1.000), also Ist = 500 Mh. Stellen Sie den Schieber auf 500 und prüfen Sie es.</p></details>
+  </div>
+
+  <div class="card">
+    <div class="foot">
+      <img src="qr.png" alt="QR-Code zum Cockpit">
+      <div>
+        <b>Zum Mitnehmen aufs eigene Gerät:</b> cneusser.github.io/HS_Osnabrueck<br>
+        <span class="muted">Dieses Cockpit rechnet jede Ist-Konstellation live. Erzeugen Sie eine reine Beschäftigungsabweichung ohne Verbrauchsabweichung, und finden Sie die Stundenzahl, bei der die Leerkosten 10.000 € erreichen.</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div style="display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.5rem"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Probelehrveranstaltung · Hochschule Osnabrück · Kennziffer WiSo 307-2 · 17.11.2026<br>
+  Grundlage: Kilger, Pampel &amp; Vikas, Flexible Plankostenrechnung und Deckungsbeitragsrechnung; Gutenberg (Leer- und Nutzkosten). Fallkontext angelehnt an die GMH Gruppe (Georgsmarienhütte); Zahlen didaktisch und fiktiv.
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const eur=n=>Math.round(n).toLocaleString('de-DE')+' €';
+let chart;
+function preset(ist,dv){ $('ist').value=ist; $('dv').value=dv; render(); }
+function render(){
+  const plan=+$('plan').value||1, prop=+$('prop').value||0, fix=+$('fix').value||0;
+  const ist=+$('ist').value, dv=+$('dv').value;
+  const voller = prop + fix/plan;
+  const soll = prop*ist + fix;
+  const verr = voller*ist;
+  const istk = soll + dv;        // Mehrverbrauch verändert Istkosten
+  const va = istk - soll;        // Verbrauchsabweichung = dv
+  const ba = soll - verr;        // Beschäftigungsabweichung
+  const gesamt = istk - verr;    // = va + ba
+  const leer = fix*(1-ist/plan);
+  $('istLbl').textContent=ist; $('dvLbl').textContent=dv.toLocaleString('de-DE');
+  $('istkosten').textContent=eur(istk);
+  $('s-soll').textContent=Math.round(soll).toLocaleString('de-DE');
+  $('s-verr').textContent=Math.round(verr).toLocaleString('de-DE');
+  $('s-va').textContent=Math.round(va).toLocaleString('de-DE');
+  $('s-ba').textContent=Math.round(ba).toLocaleString('de-DE');
+  // verdict for VA
+  const vv=$('v-va'); if(Math.abs(va)<1){vv.className='verdict v-neutral';vv.textContent='neutral';}
+   else if(va>0){vv.className='verdict v-unguenstig';vv.textContent='ungünstig';}
+   else {vv.className='verdict v-guenstig';vv.textContent='günstig';}
+  $('voll-n').textContent=eur(gesamt);
+  $('grenz-n').textContent=eur(va);
+  // phantom note
+  const ph=$('phantom');
+  if(Math.abs(va)<1 && Math.abs(ba)>1){ ph.style.display='block';
+    $('phantom-n').textContent=eur(ba);
+  } else if(Math.abs(ba)>1){ ph.style.display='block';
+    ph.innerHTML='Davon sind <b>'+eur(ba)+'</b> Beschäftigungsabweichung (Leerkosten der Auslastung) und <b>'+eur(va)+'</b> echte Verbrauchsabweichung der Stelle. Nur Letztere gehört in den Bericht.';
+  } else { ph.style.display='none'; }
+  // report
+  const split=$('split').checked; const r=$('report');
+  const dotFor=x=>Math.abs(x)<1?'green':(x>0?'red':'amber');
+  if(split){
+    r.innerHTML='<div class="lights">'+
+      '<span class="light"><span class="dot '+dotFor(va)+'"></span>Verbrauch (steuerbar): '+eur(va)+'</span>'+
+      '<span class="light"><span class="dot amber"></span>Beschäftigung (Auslastung): '+eur(ba)+'</span></div>';
+  } else {
+    r.innerHTML='<div class="lights"><span class="light"><span class="dot '+(Math.abs(gesamt)<1?'green':'red')+'"></span>Gesamtabweichung: '+eur(gesamt)+'</span></div>';
+  }
+  // waterfall
+  const data={labels:['Verrechnet','+ Beschäftigung','Sollkosten','+ Verbrauch','Istkosten'],
+    datasets:[{data:[[0,verr],[verr,verr+ba],[0,soll],[soll,soll+va],[0,istk]],
+      backgroundColor:['#62708A','#A6611E','#1A2C5A','#B23A2E','#1E7A52'],borderWidth:0,barPercentage:.7}]};
+  const opts={responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;return eur(Math.abs(v[1]-v[0]))}}}},
+    scales:{y:{beginAtZero:true,ticks:{callback:v=>v.toLocaleString('de-DE')}},x:{ticks:{font:{size:10}}}}};
+  if(chart){chart.data=data;chart.options=opts;chart.update();}
+  else chart=new Chart($('wf'),{type:'bar',data,options:opts});
+}
+['plan','prop','fix','ist','dv'].forEach(id=>$(id).addEventListener('input',render));
+render();
+</script>
+</body>
+</html>

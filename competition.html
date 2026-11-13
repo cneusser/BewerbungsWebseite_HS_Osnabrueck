@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wettbewerbs-Quiz · Abweichungsanalyse · Hochschule Osnabrück</title>
+<style>
+  :root{--navy:#1A2C5A;--navy2:#26386B;--gold:#B39058;--gold2:#86683A;--slate:#62708A;--ink:#252629;--panel:#F2F4F8;--ice:#C1D1E8;--line:#C7D0DE;--green:#1E7A52;--red:#B23A2E;--bronze:#A6611E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+  h1,h2,h3,.big{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  a{color:#fff;text-decoration:none}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:8px;height:8px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--navy);color:#fff;padding:1.2rem;border-bottom:3px solid var(--gold)}
+  .wrap{max-width:840px;margin:0 auto;padding:0 1rem;width:100%}
+  .brand{display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700;margin-bottom:.4rem}
+  header h1{font-size:1.35rem}
+  .nav{margin-top:.6rem;display:flex;gap:.4rem;flex-wrap:wrap}
+  .nav a{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:.25rem .8rem;font-size:.78rem;font-weight:600}
+  main{max-width:840px;margin:1.3rem auto;padding:0 1rem;flex:1;width:100%}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 12px rgba(26,44,90,.08);padding:1.5rem}
+  .screen{display:none} .screen.on{display:block}
+  .intro h2{color:var(--navy);font-size:1.5rem;margin-bottom:.5rem}
+  .intro p{color:var(--slate);margin-bottom:1rem}
+  .intro label{display:block;font-weight:700;margin-bottom:.3rem;font-size:.9rem}
+  .intro input{width:100%;padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:10px;font-size:1rem;margin-bottom:1rem}
+  .btn{background:var(--gold);color:var(--navy);border:0;border-radius:10px;padding:.8rem 1.4rem;font-size:1rem;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--gold2);color:#fff}
+  .btn.ghost{background:var(--navy);color:#fff}
+  .rules{background:var(--panel);border-radius:10px;padding:.8rem 1rem;font-size:.88rem;color:var(--ink);margin-bottom:1.1rem}
+  .rules b{color:var(--navy)}
+  .hud{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;color:var(--slate);margin-bottom:.5rem;font-weight:700}
+  .hud .sc{color:var(--gold2)}
+  .tbar{height:10px;background:var(--ice);border-radius:6px;overflow:hidden;margin-bottom:1rem}
+  .tbar>div{height:100%;background:var(--gold);width:100%;transition:width .1s linear}
+  .tbar>div.warn{background:var(--red)}
+  .q{font-size:1.25rem;color:var(--navy);font-weight:700;margin-bottom:1.1rem;line-height:1.35}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+  @media(max-width:560px){.tiles{grid-template-columns:1fr}}
+  .tile{border:0;border-radius:12px;padding:1.1rem 1rem;font-size:1rem;font-weight:700;color:#fff;text-align:left;cursor:pointer;min-height:68px;display:flex;align-items:center;gap:.6rem;transition:transform .08s}
+  .tile:hover{transform:translateY(-2px)}
+  .tile:disabled{cursor:default;opacity:.92}
+  .tile .k{font-family:'Cambria',serif;font-size:1.1rem;opacity:.85;flex:0 0 auto}
+  .t0{background:var(--navy)} .t1{background:var(--bronze)} .t2{background:var(--green)} .t3{background:var(--slate)}
+  .tile.correct{outline:4px solid #0a4;box-shadow:0 0 0 4px rgba(30,122,82,.35)}
+  .tile.wrong{outline:4px solid #822;opacity:.55}
+  .numrow{display:flex;gap:.6rem}
+  .numrow input{flex:1;padding:.9rem .8rem;border:1.5px solid var(--line);border-radius:10px;font-size:1.1rem}
+  .fb{margin-top:1rem;border-radius:10px;padding:.9rem 1rem;font-size:.95rem;display:none}
+  .fb.on{display:block}
+  .fb.ok{background:#E8F2EC;border:1px solid #BFDCCB}
+  .fb.no{background:#F7E7E4;border:1px solid #E6C3BC}
+  .fb .pts{font-weight:800;color:var(--navy)}
+  .fb .nx{margin-top:.8rem;text-align:right}
+  .end{text-align:center}
+  .end .big{font-size:3rem;font-weight:800;color:var(--gold2)}
+  .end .msg{color:var(--slate);margin:.3rem 0 1rem}
+  .lb{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1rem 0;text-align:left}
+  .lb .row{display:grid;grid-template-columns:40px 1fr auto;padding:.55rem .9rem;border-bottom:1px solid var(--panel);font-size:.95rem}
+  .lb .row.h{background:var(--navy);color:#fff;font-weight:700}
+  .lb .row.me{background:#FBF4E6;font-weight:700}
+  .lb .row .rk{color:var(--gold2);font-weight:800}
+  details{margin-top:1.4rem;background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem}
+  summary{cursor:pointer;font-weight:700;color:var(--navy);font-family:'Cambria',serif;font-size:1.05rem}
+  .kh{margin-top:.8rem}
+  .kh .item{border-top:1px solid var(--panel);padding:.6rem 0;font-size:.9rem}
+  .kh .qq{font-weight:700;color:var(--navy)}
+  .kh ul{margin:.3rem 0 .2rem 1.1rem}
+  .kh .ok{color:var(--green);font-weight:700}
+  .kh .time{color:var(--slate);font-size:.82rem}
+  footer{background:var(--navy);color:#cfd8ea;font-size:.8rem;padding:1.2rem;text-align:center;margin-top:1.4rem}
+  .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.4rem}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <h1>Wettbewerbs-Quiz: Abweichungsanalyse</h1>
+  <div class="nav">
+    <a href="probelehrveranstaltung.html">&larr; Übersicht</a>
+    <a href="cockpit.html">Cockpit</a>
+    <a href="tutorial.html">Lernportal</a>
+    <a href="quiz.html">Selbsttest</a>
+  </div>
+</div></header>
+
+<main>
+  <section id="s-start" class="screen on card intro">
+    <h2>Treten Sie an</h2>
+    <p>Zwölf Fragen, Tempo zählt. Je schneller Sie richtig antworten, desto mehr Punkte.</p>
+    <div class="rules">
+      <b>Spielregeln:</b> Pro Frage bis zu 25 Sekunden. Richtig und schnell bringt bis zu 1000 Punkte, langsam weniger, falsch null. Eine Serie richtiger Antworten gibt einen Streak-Bonus. Am Ende kommen Sie in die Bestenliste dieses Geräts.
+    </div>
+    <label for="pname">Ihr Name oder Spitzname</label>
+    <input id="pname" type="text" maxlength="20" placeholder="z.B. Team Dreherei" autocomplete="off">
+    <button class="btn" onclick="start()">Start &rarr;</button>
+  </section>
+
+  <section id="s-play" class="screen card">
+    <div class="hud"><span id="qnum">Frage 1 von 12</span><span class="sc" id="score">0 Punkte</span></div>
+    <div class="tbar"><div id="bar"></div></div>
+    <div class="q" id="qtext"></div>
+    <div id="answers"></div>
+    <div class="fb" id="fb"></div>
+  </section>
+
+  <section id="s-end" class="screen card end">
+    <div style="font-size:.78rem;letter-spacing:1px;color:var(--slate);font-weight:700">ENDSTAND</div>
+    <div class="big" id="finalScore">0</div>
+    <div class="msg" id="finalMsg"></div>
+    <div class="lb" id="board"></div>
+    <button class="btn" onclick="restart()">Nochmal spielen</button>
+    <a class="btn ghost" style="display:inline-block;margin-left:.4rem" href="tutorial.html">Zum Lernportal</a>
+  </section>
+
+  <details>
+    <summary>Für den echten Kahoot-Einsatz im Hörsaal (Fragen zum Kopieren)</summary>
+    <div class="kh" id="khList"></div>
+    <p class="time" style="margin-top:.7rem">Hinweis: In Kahoot pro Frage die vier Optionen eintragen, die als richtig markierte Option anhaken und die Zeit setzen. Für echten Mehrspieler-Wettbewerb die Fragen so in ein Kahoot uebernehmen; dieses Quiz hier laeuft als Einzelgeraet-Challenge mit lokaler Bestenliste.</p>
+  </details>
+</main>
+
+<footer>
+  <div class="fbrand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Modul Controlling (22B0140) - Hochschule Osnabrueck - Fallkontext angelehnt an die GMH Gruppe, Zahlen fiktiv - es wird nichts gesendet oder gespeichert ausser der lokalen Bestenliste.
+</footer>
+
+<script>
+const QS=[
+ {t:"Was sind Sollkosten?",o:["Die Plankosten aus dem starren Jahresbudget","Proportionaler Satz mal Istbeschäftigung plus fixe Plankosten","Die tatsächlich angefallenen Istkosten","Umsatz minus variable Kosten"],c:1,
+  e:"Sollkosten sind der flexible Massstab: der proportionale Teil atmet mit der Auslastung, fix bleibt.",time:20},
+ {t:"Oktober: 600 Mh, Sollkosten 38.000 Euro, Istkosten 38.000 Euro. Verbrauchsabweichung (in Euro)?",num:0,
+  e:"Verbrauchsabweichung = Ist minus Soll = 38.000 minus 38.000 = 0.",time:25},
+ {t:"Welche Abweichung verantwortet die Kostenstelle selbst?",o:["Die Beschäftigungsabweichung","Die Verbrauchsabweichung","Beide gleichermassen","Keine von beiden"],c:1,
+  e:"Die Verbrauchsabweichung misst Wirtschaftlichkeit. Die Beschäftigung kommt aus der Auslastung.",time:20},
+ {t:"Oktober: Sollkosten 38.000 Euro, verrechnete Plankosten 30.000 Euro. Beschäftigungsabweichung (in Euro)?",num:8000,
+  e:"Beschäftigungsabweichung = Soll minus verrechnet = 38.000 minus 30.000 = 8.000. Reine Leerkosten.",time:25},
+ {t:"Warum kennt die Grenzplankostenrechnung keine Beschäftigungsabweichung?",o:["Weil sie keine Fixkosten hat","Weil nur proportionale Kosten verrechnet werden, Fixkosten als Block","Weil sie die Istbeschäftigung ignoriert","Weil sie nur im Monatsbericht auftaucht"],c:1,
+  e:"Keine Fixkosten je Stunde verrechnet, also keine Unterdeckung je Stunde. Die Phantom-Abweichung verschwindet.",time:20},
+ {t:"Die KI meldete 8.000 Euro ungünstig, ineffiziente Fertigung. Ihr Fehler?",o:["Sie hat falsch gerechnet","Sie hat Beschäftigung als Verbrauch etikettiert","Sie hat die Fixkosten vergessen","Sie hat den falschen Monat genommen"],c:1,
+  e:"Die Rechnung stimmte, die Deutung nicht. Die 8.000 sind Auslastung, nicht Ineffizienz.",time:20},
+ {t:"Fix 20.000 Euro, Plan 1.000 Mh, Ist 600 Mh. Leerkosten (in Euro)?",num:8000,
+  e:"Leerkosten = 20.000 mal (1 minus 600/1.000) = 8.000. Exakt die Beschäftigungsabweichung.",time:25},
+ {t:"Wohin geht der Fixkostenblock in der Grenzplankostenrechnung?",o:["Er wird je Stunde auf die Produkte verteilt","Er entfällt ganz","Als Block in die Deckungsbeitragsrechnung","In die Verbrauchsabweichung"],c:2,
+  e:"Die Produkte tragen nur Grenzkosten; der Deckungsbeitrag deckt den Fixkostenblock als Ganzes.",time:20},
+ {t:"Fix 20.000 Euro, Plan 1.000 Mh, Ist 600 Mh. Nutzkosten (in Euro)?",num:12000,
+  e:"Nutzkosten = 20 Euro/Mh mal 600 = 12.000. Zusammen mit 8.000 Leerkosten ergibt das 20.000.",time:25},
+ {t:"Welle: Nettoerlös 60 Euro, variable Kosten 40 Euro. Deckungsbeitrag (in Euro)?",num:20,
+  e:"Deckungsbeitrag = Erlös minus variable Kosten = 60 minus 40 = 20.",time:20},
+ {t:"November: 800 Mh, 30 Euro/Mh proportional, 20.000 Euro fix. Sollkosten (in Euro)?",num:44000,
+  e:"Sollkosten = 30 mal 800 plus 20.000 = 44.000.",time:25},
+ {t:"Oktober: voller Satz 50 Euro/Mh, Ist 600 Mh. Verrechnete Plankosten (in Euro)?",num:30000,
+  e:"Verrechnete Plankosten = voller Satz mal Ist-Mh = 50 mal 600 = 30.000.",time:20},
+];
+const TILE=['t0','t1','t2','t3'], KEYS=['A','B','C','D'];
+let idx=0,score=0,streak=0,correctCount=0,pname='',timer=null,tLeft=0,tTotal=0,answered=false;
+const $=id=>document.getElementById(id);
+function show(id){['s-start','s-play','s-end'].forEach(s=>$(s).classList.toggle('on',s===id));}
+
+function start(){ pname=($('pname').value||'').trim()||'Anonym'; idx=0;score=0;streak=0;correctCount=0; show('s-play'); renderQ(); }
+
+function renderQ(){
+  answered=false; const q=QS[idx];
+  $('qnum').textContent='Frage '+(idx+1)+' von '+QS.length;
+  $('score').textContent=score+' Punkte';
+  $('qtext').textContent=q.t;
+  const fb=$('fb'); fb.className='fb'; fb.innerHTML='';
+  const a=$('answers');
+  if(q.o){ a.innerHTML='<div class="tiles">'+q.o.map((o,k)=>'<button class="tile '+TILE[k]+'" onclick="pick('+k+')"><span class="k">'+KEYS[k]+'</span><span>'+o+'</span></button>').join('')+'</div>'; }
+  else { a.innerHTML='<div class="numrow"><input id="na" type="number" inputmode="numeric" placeholder="Betrag in Euro"><button class="btn" onclick="pickNum()">Antwort</button></div>'; const na=$('na'); if(na){na.focus(); na.addEventListener('keydown',e=>{if(e.key==="Enter")pickNum();});} }
+  tTotal=q.time; tLeft=q.time; setBar();
+  timer=setInterval(()=>{ tLeft-=0.1; if(tLeft<=0){ tLeft=0; setBar(); timeUp(); } else setBar(); },100);
+}
+function setBar(){ const pct=Math.max(0,tLeft/tTotal*100); const b=$('bar'); b.style.width=pct+'%'; b.className=pct<30?'warn':''; }
+function stopTimer(){ if(timer){clearInterval(timer);timer=null;} }
+
+function award(){ const base=500+Math.round(500*(tLeft/tTotal)); const bonus=Math.min(streak,5)*50; return base+bonus; }
+function pick(k){ if(answered)return; const q=QS[idx]; finish(k===q.c, k); }
+function pickNum(){ if(answered)return; const q=QS[idx]; const raw=($('na').value||'').replace(/\./g,'').replace(',','.'); const v=parseFloat(raw); finish(!isNaN(v)&&Math.abs(v-q.num)<1, null); }
+function timeUp(){ if(answered)return; finish(false,null,true); }
+
+function finish(ok,picked,timedOut){
+  answered=true; stopTimer(); const q=QS[idx];
+  let gained=0;
+  if(ok){ streak++; correctCount++; gained=award(); score+=gained; } else { streak=0; }
+  $('score').textContent=score+' Punkte';
+  if(q.o){ const tiles=document.querySelectorAll('.tile'); tiles.forEach((t,k)=>{ t.disabled=true; if(k===q.c)t.classList.add('correct'); else if(k===picked)t.classList.add('wrong'); }); }
+  else { const na=$('na'); if(na)na.disabled=true; }
+  const fb=$('fb'); fb.className='fb on '+(ok?'ok':'no');
+  let head = ok? '<b>Richtig.</b> ' : (timedOut? '<b>Zeit abgelaufen.</b> ' : '<b>Leider falsch.</b> ');
+  let pts = ok? '<span class="pts">+'+gained+' Punkte'+(streak>1?' (Streak '+streak+')':'')+'</span>' : '<span class="pts">0 Punkte</span>';
+  fb.innerHTML = head + q.e + '<br>' + pts + '<div class="nx"><button class="btn" onclick="next()">'+(idx===QS.length-1?'Ergebnis':'Weiter')+' &rarr;</button></div>';
+}
+function next(){ idx++; if(idx>=QS.length) end(); else renderQ(); }
+
+function end(){
+  show('s-end');
+  $('finalScore').textContent=score;
+  $('finalMsg').textContent=correctCount+' von '+QS.length+' richtig. '+(score>=9000?'Weltklasse, Sie koennen die KI-Diagnose souveraen pruefen.':score>=6000?'Stark gespielt. Noch etwas Feinschliff an den Rechenfragen.':'Solide. Ueben Sie am Cockpit und treten Sie nochmal an.');
+  const board=saveScore(pname,score); let meMarked=false;
+  let html='<div class="row h"><span class="rk">#</span><span>Name</span><span>Punkte</span></div>';
+  board.slice(0,5).forEach((r,i)=>{ const me=(!meMarked && r.name===pname && r.score===score); if(me)meMarked=true; html+='<div class="row'+(me?' me':'')+'"><span class="rk">'+(i+1)+'</span><span>'+escapeHtml(r.name)+'</span><span>'+r.score+'</span></div>'; });
+  $('board').innerHTML=html;
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function saveScore(name,sc){
+  let board=[]; try{ board=JSON.parse(localStorage.getItem('gpk_comp')||'[]'); }catch(e){ board=[]; }
+  board.push({name:name,score:sc}); board.sort((a,b)=>b.score-a.score); board=board.slice(0,10);
+  try{ localStorage.setItem('gpk_comp',JSON.stringify(board)); }catch(e){}
+  return board;
+}
+function restart(){ show('s-start'); $('pname').focus(); }
+
+(function(){
+  let h='';
+  QS.forEach((q,i)=>{ h+='<div class="item"><div class="qq">'+(i+1)+'. '+q.t+'</div>';
+    if(q.o){ h+='<ul>'+q.o.map((o,k)=>'<li'+(k===q.c?' class="ok"':'')+'>'+KEYS[k]+') '+o+(k===q.c?'  (richtig)':'')+'</li>').join('')+'</ul>'; }
+    else { h+='<ul><li class="ok">Rechenfrage, richtige Antwort: '+q.num.toLocaleString('de-DE')+' Euro</li><li>In Kahoot als vier Antwortoptionen anlegen, eine davon = '+q.num.toLocaleString('de-DE')+'</li></ul>'; }
+    h+='<div class="time">Zeitvorschlag: '+q.time+' Sekunden</div></div>'; });
+  var el=document.getElementById('khList'); if(el) el.innerHTML=h;
+})();
+</script>
+</body>
+</html>

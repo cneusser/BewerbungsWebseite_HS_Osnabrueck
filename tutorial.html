@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lernportal · Abweichungsanalyse · Hochschule Osnabrück</title>
+<style>
+  :root{--navy:#1A2C5A;--navy2:#26386B;--gold:#B39058;--gold2:#86683A;--slate:#62708A;--ink:#252629;--panel:#F2F4F8;--ice:#C1D1E8;--line:#C7D0DE;--green:#1E7A52;--red:#B23A2E;--bronze:#A6611E;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.55}
+  h1,h2,h3{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  a{color:var(--navy)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 1rem}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:8px;height:8px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--navy);color:#fff;padding:1.7rem 1.2rem;border-bottom:3px solid var(--gold)}
+  .brand{display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700;margin-bottom:.55rem}
+  header h1{font-size:1.6rem;margin-bottom:.25rem}
+  header p{opacity:.9;font-size:.95rem;max-width:760px}
+  .tag{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:.15rem .7rem;font-size:.78rem;margin-top:.6rem}
+  .nav{margin-top:.8rem;display:flex;gap:.4rem;flex-wrap:wrap}
+  .nav a{background:var(--gold);color:var(--navy);text-decoration:none;font-weight:700;border-radius:14px;padding:.35rem 1rem;font-size:.82rem}
+  .nav a.ghost{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff}
+  main{max-width:980px;margin:1.3rem auto;padding:0 1rem}
+  .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.7rem;margin-bottom:1.3rem}
+  .legend div{border:1px solid var(--line);border-radius:10px;padding:.7rem .9rem;font-size:.88rem;background:#fff}
+  .badge{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:1px;border-radius:12px;padding:.1rem .6rem;margin-bottom:.35rem}
+  .b-kern{background:#E8F2EC;color:#1E7A52;border:1px solid #BFDCCB}
+  .b-vert{background:#F7EFE6;color:#86683A;border:1px solid #E4CDB0}
+  .b-rand{background:#EEF1F6;color:#62708A;border:1px solid #C7D0DE}
+  .tier{font-size:1.25rem;color:var(--navy);margin:1.6rem 0 .3rem;border-left:4px solid var(--gold);padding-left:.6rem}
+  .tier small{display:block;font-family:'Calibri',sans-serif;font-size:.82rem;color:var(--slate);font-weight:400;margin-top:.1rem}
+  .item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:1rem 1.1rem;margin:.8rem 0;box-shadow:0 1px 5px rgba(26,44,90,.05)}
+  .item h3{font-size:1.02rem;color:var(--navy);margin:.1rem 0 .4rem}
+  .item p{font-size:.92rem;margin-bottom:.5rem}
+  .item .can{font-size:.85rem;color:var(--gold2);font-weight:700;margin-bottom:.4rem}
+  details{border-top:1px dashed var(--line);padding-top:.5rem;margin-top:.4rem}
+  summary{cursor:pointer;font-weight:600;color:var(--navy);font-size:.9rem}
+  details .a{margin-top:.4rem;font-size:.9rem;background:var(--panel);border-radius:8px;padding:.5rem .7rem}
+  .src{font-size:.8rem;color:var(--slate);margin-top:.5rem}
+  .src b{color:var(--ink)}
+  .kompass{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.5rem 0 1rem}
+  @media(max-width:700px){.kompass{grid-template-columns:1fr}}
+  .kompass div{border-radius:10px;padding:1rem;border:1px solid var(--line)}
+  .kompass .core{background:#E8F2EC;border-color:#BFDCCB}
+  .kompass .extra{background:#EEF1F6}
+  .kompass h3{font-size:1rem;margin-bottom:.4rem}
+  .kompass .core h3{color:var(--green)} .kompass .extra h3{color:var(--slate)}
+  .kompass ul{margin-left:1.1rem;font-size:.9rem} .kompass li{margin:.2rem 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;margin:1rem 0}
+  .card h2{color:var(--navy);font-size:1.15rem;margin-bottom:.6rem}
+  .check label{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;padding:.35rem 0;border-bottom:1px solid var(--panel);cursor:pointer}
+  .check input{margin-top:.25rem}
+  .lit{font-size:.9rem} .lit li{margin:.35rem 0;list-style:none;padding-left:1.1rem;text-indent:-1.1rem}
+  .links li{margin:.35rem 0}
+  .note{font-size:.82rem;color:var(--slate);background:var(--panel);border-radius:8px;padding:.6rem .8rem;margin-top:.6rem}
+  footer{background:var(--navy);color:#cfd8ea;font-size:.82rem;padding:1.3rem;text-align:center;margin-top:1.6rem}
+  .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.5rem}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <h1>Lernportal: Abweichungsanalyse und Grenzplankostenrechnung</h1>
+  <p>Ihre Nachbereitung zur Sitzung. Hier vertiefen Sie Schritt für Schritt, prüfen sich selbst und sehen auf einen Blick, was Klausurkern ist und was über den Tellerrand hinausgeht.</p>
+  <span class="tag">Modul Controlling (22B0140) · Hochschule Osnabrück · 2. Semester</span>
+  <div class="nav">
+    <a href="cockpit.html">Interaktives Cockpit</a>
+    <a href="quiz.html" class="ghost">Selbsttest (8 Fragen)</a>
+  </div>
+</div></header>
+
+<main>
+
+  <!-- LEGENDE -->
+  <div class="legend">
+    <div><span class="badge b-kern">KLAUSURKERN</span><br>Das müssen Sie sicher können. Prüfungsrelevant.</div>
+    <div><span class="badge b-vert">VERTIEFUNG</span><br>Schärft das Verständnis, prüfungsnah. Lohnt sich.</div>
+    <div><span class="badge b-rand">ÜBER DEN TELLERRAND</span><br>Zusatzwissen und Hintergrund. Nicht klausurrelevant, aber spannend.</div>
+  </div>
+
+  <!-- KLAUSUR-KOMPASS -->
+  <div class="kompass">
+    <div class="core">
+      <h3>Klausurkern: das sitzt sicher</h3>
+      <ul>
+        <li>Sollkosten berechnen (prop. Satz × Ist-Mh + Fixkosten)</li>
+        <li>Verbrauchsabweichung = Ist minus Soll</li>
+        <li>Beschäftigungsabweichung = Soll minus verrechnet</li>
+        <li>steuerbar (Verbrauch) von Auslastung (Beschäftigung) trennen</li>
+        <li>warum die Grenzplankostenrechnung keine Beschäftigungsabweichung kennt</li>
+        <li>Leerkosten und Nutzkosten rechnen</li>
+      </ul>
+    </div>
+    <div class="extra">
+      <h3>Über den Tellerrand: gut zu wissen</h3>
+      <ul>
+        <li>Theoriegeschichte (Schmalenbach, Gutenberg, Kilger, Plaut)</li>
+        <li>Prozesskostenrechnung und Riebel'sche Einzelkostenrechnung</li>
+        <li>warum eine KI-Konfidenz keine Richtigkeit ist</li>
+        <li>GMH-Grünstahl: Energie, Preisabweichung, Strategie</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TIER 1 BASICS -->
+  <div class="tier">1 · Grundlagen <small>Das Fundament. Wenn hier alles sitzt, haben Sie den Klausurkern.</small></div>
+
+  <div class="item">
+    <span class="badge b-kern">KLAUSURKERN</span>
+    <h3>Sollkosten: der mitatmende Maßstab</h3>
+    <div class="can">Ich kann die Sollkosten für jede Istbeschäftigung berechnen.</div>
+    <p>Sollkosten = proportionaler Plankostensatz × Ist-Maschinenstunden + fixe Plankosten. Nicht das starre Jahresbudget, sondern der Plan, angepasst an die tatsächliche Auslastung. Alltagsbild: ein Taxameter, kein Festpreis.</p>
+    <details><summary>Prüf dich</summary><div class="a">Plan 1.000 Mh, 30 €/Mh proportional, 20.000 € fix. Istbeschäftigung 600 Mh. Sollkosten? <b>30 × 600 + 20.000 = 38.000 €.</b></div></details>
+    <div class="src"><b>Quelle:</b> Kilger, Pampel &amp; Vikas (2012), Kap. zur flexiblen Plankostenrechnung (Modulliteratur).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-kern">KLAUSURKERN</span>
+    <h3>Zwei Abweichungen, zwei Verantwortliche</h3>
+    <div class="can">Ich kann eine Gesamtabweichung in Verbrauch und Beschäftigung zerlegen und richtig zuordnen.</div>
+    <p>Verbrauchsabweichung = Istkosten minus Sollkosten. Sie misst Wirtschaftlichkeit (Mehrverbrauch, Ausschuss) und gehört der Kostenstelle. Beschäftigungsabweichung = Sollkosten minus verrechnete Plankosten. Sie entsteht aus der Auslastung und gehört dem Vertrieb bzw. der Geschäftsführung. Alltagsbilder: Spritverbrauch auf gleicher Strecke (Verbrauch) gegen ein Fitness-Abo, das man seltener nutzt (Beschäftigung).</p>
+    <details><summary>Prüf dich</summary><div class="a">600 Mh, Sollkosten 38.000 €, Istkosten 38.000 €, verrechnet 30.000 €. Verbrauch? <b>0 €.</b> Beschäftigung? <b>8.000 €.</b> Wer ist schuld am Mehr? <b>Niemand in der Kostenstelle, es ist reine Auslastung.</b></div></details>
+    <div class="src"><b>Quelle:</b> Coenenberg, Fischer &amp; Günther (2016), Kostenrechnung und Kostenanalyse (Modulliteratur).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-kern">KLAUSURKERN</span>
+    <h3>Die Formeln auf einen Blick</h3>
+    <div class="can">Ich kenne die fünf Grundformeln und kann sie anwenden.</div>
+    <p>Sollkosten = prop. Satz × Ist-Mh + Fix · Verrechnete Plankosten = voller Satz × Ist-Mh · Verbrauchsabweichung = Ist minus Soll · Beschäftigungsabweichung = Soll minus verrechnet · Leerkosten = Fix × (1 minus Ist/Plan).</p>
+    <details><summary>Prüf dich</summary><div class="a">Üben Sie die Formeln direkt am <a href="cockpit.html">Cockpit</a>: Schieber ziehen, Werte vorhersagen, dann vergleichen.</div></details>
+  </div>
+
+  <!-- TIER 2 VERTIEFUNG -->
+  <div class="tier">2 · Vertiefung <small>Verstehen, warum es so ist. Prüfungsnah, oft der Unterschied zwischen 2 und 1.</small></div>
+
+  <div class="item">
+    <span class="badge b-vert">VERTIEFUNG</span>
+    <h3>Warum die Grenzplankostenrechnung die Phantom-Abweichung vermeidet</h3>
+    <div class="can">Ich kann erklären, warum bei Kilger/Plaut keine Beschäftigungsabweichung entsteht.</div>
+    <p>Auf den Kostenträger werden nur die proportionalen (Grenz-)Kosten verrechnet. Die Fixkosten werden nicht auf Stunden verteilt, sondern als Block behandelt. Weil keine Fixkosten je Stunde verrechnet werden, kann auch keine Unterdeckung je Stunde (Beschäftigungsabweichung) entstehen. Die Phantom-Abweichung verschwindet, das Signal an die Kostenstelle wird sauber.</p>
+    <details><summary>Prüf dich</summary><div class="a">Oktober, 600 Mh. Vollkosten verrechnen 50 €/Mh und melden 8.000 € Beschäftigungsabweichung. Grenzplankosten verrechnen nur 30 €/Mh. Beschäftigungsabweichung? <b>entfällt.</b> Was bleibt an die Stelle? <b>Nur die Verbrauchsabweichung, hier 0 €.</b></div></details>
+    <div class="src"><b>Quelle:</b> Kilger (1961); Kilger, Pampel &amp; Vikas (2012).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-vert">VERTIEFUNG</span>
+    <h3>Leerkosten und Nutzkosten</h3>
+    <div class="can">Ich kann den Fixkostenblock in Nutz- und Leerkosten aufteilen.</div>
+    <p>Nutzkosten = genutzter Anteil der Fixkosten (Fix × Ist/Plan). Leerkosten = ungenutzter Anteil (Fix × (1 minus Ist/Plan)). Die Beschäftigungsabweichung ist exakt der Leerkostenanteil. Das erklärt, warum sie bei Unterauslastung automatisch entsteht, ohne dass jemand schlechter arbeitet.</p>
+    <details><summary>Prüf dich</summary><div class="a">Fix 20.000 €, Plan 1.000 Mh, Ist 600 Mh. Leerkosten? <b>20.000 × (1 - 600/1.000) = 8.000 €.</b> Nutzkosten? <b>12.000 €.</b></div></details>
+    <div class="src"><b>Quelle:</b> Gutenberg (1983), Grundlagen der BWL, Band 1.</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-vert">VERTIEFUNG</span>
+    <h3>Der Fixkostenblock in der Deckungsbeitragsrechnung</h3>
+    <div class="can">Ich kann erklären, wohin der Fixkostenblock geht und warum das besser steuert.</div>
+    <p>Die Produkte tragen nur ihre Grenzkosten. Der Deckungsbeitrag (Erlös minus variable Kosten) deckt den Fixkostenblock als Ganzes. So vermeidet man Fehlentscheidungen, die durch eine Fixkostenumlage je Stück entstehen (ein Auftrag sieht in Vollkosten schnell unrentabel aus, obwohl er einen positiven Deckungsbeitrag liefert).</p>
+    <details><summary>Prüf dich</summary><div class="a">Welle, Nettoerlös 60 €, variable Kosten 40 €. Deckungsbeitrag? <b>20 €.</b> Lohnt der Auftrag kurzfristig? <b>Ja, solange der DB positiv ist und freie Kapazität besteht.</b></div></details>
+    <div class="src"><b>Quelle:</b> Weber &amp; Schäffer, Einführung in das Controlling (Modulliteratur).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-vert">VERTIEFUNG</span>
+    <h3>Preisabweichung: Markt statt Kostenstelle</h3>
+    <div class="can">Ich kann die Preisabweichung von der Verbrauchsabweichung trennen.</div>
+    <p>Wird zu Planpreisen gerechnet und weichen die Ist-Preise ab (Energie, Material, Lohn), entsteht eine Preisabweichung = (Istpreis minus Planpreis) × Istmenge. Sie gehört zum Markt bzw. Einkauf, nicht zur Wirtschaftlichkeit der Kostenstelle. So bleibt die Verbrauchsabweichung ein reines Mengensignal.</p>
+    <div class="src"><b>Quelle:</b> Coenenberg, Fischer &amp; Günther (2016).</div>
+  </div>
+
+  <!-- TIER 3 ZUSATZ -->
+  <div class="tier">3 · Über den Tellerrand <small>Zusatzwissen und Hintergrund. Nicht klausurrelevant, aber es zeigt, warum das Fach so denkt.</small></div>
+
+  <div class="item">
+    <span class="badge b-rand">ÜBER DEN TELLERRAND</span>
+    <h3>100 Jahre Theorie hinter einer Formel</h3>
+    <p>Schmalenbach (ab 1919) brachte den Grenzkostengedanken in die Kostenrechnung. Gutenberg (1951/1983) lieferte mit Leer- und Nutzkosten die Erklärung, warum Fixkosten bei Unterauslastung nicht verschwinden. Plaut entwickelte ab den 1950er Jahren aus der Beratungspraxis die anwendbare Grenzplankostenrechnung, Kilger (1961) gab ihr die wissenschaftliche Form. Die Trennung proportionaler und fixer Kosten ist also kein Zufall, sondern Ergebnis langer Theoriearbeit.</p>
+    <div class="src"><b>Quellen:</b> Schmalenbach (1919/1963); Gutenberg (1983); Kilger (1961).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-rand">ÜBER DEN TELLERRAND</span>
+    <h3>Grenzplankosten im Vergleich der Teilkostensysteme</h3>
+    <p>Grenzplankostenrechnung (Kilger/Plaut): nur proportionale Kosten auf den Träger. Prozesskostenrechnung (Horváth/Mayer 1989; Cooper/Kaplan ABC): Gemeinkosten über Prozesse und Cost Driver, stark bei hohem Gemeinkostenanteil. Relative Einzelkosten- und Deckungsbeitragsrechnung (Riebel 1972): nur zurechenbare Einzelkosten, keine Schlüsselung, maximal entscheidungsrein. Alle drei trennen entscheidungsrelevante von fixen Kosten, nur auf verschiedenen Wegen.</p>
+    <div class="src"><b>Quellen:</b> Riebel (1972/1994); Horváth &amp; Mayer (1989); Cooper &amp; Kaplan (1988).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-rand">ÜBER DEN TELLERRAND</span>
+    <h3>Warum Konfidenz nicht Korrektheit ist (KI prüfen statt KI glauben)</h3>
+    <p>Ein Sprachmodell berechnet die wahrscheinlichste Wortfolge, nicht die wahrscheinlichste Wahrheit. Eine Konfidenz von 94 % ist Sprach-, nicht Sachsicherheit. Dazu kommt der Automation Bias: Menschen übernehmen plausible Maschinenurteile ungeprüft, besonders unter Zeitdruck. Die prüfende Rechnung (bei Kahneman das langsame System 2) ist die eigentliche Controlling-Leistung. Deshalb: KI als Entwurfshelfer, die Zerlegung als Prüfinstanz.</p>
+    <div class="src"><b>Quellen:</b> Bender, Gebru, McMillan-Major &amp; Shmitchell (2021); Parasuraman &amp; Riley (1997); Kahneman (2011).</div>
+  </div>
+
+  <div class="item">
+    <span class="badge b-rand">ÜBER DEN TELLERRAND</span>
+    <h3>Realkontext GMH: Energie, Grünstahl und Strategie</h3>
+    <p>Die GMH Gruppe (Georgsmarienhütte, Landkreis Osnabrück) erzeugt Stahl im Elektrolichtbogenofen und will bis 2039 klimaneutral produzieren. Elektrostahl ist energieintensiv, Strompreisschwankungen schlagen direkt auf die Kosten je Maschinenstunde durch, also auf die Preisabweichung. Ob man überhaupt auf Elektrostahl umstellt, ist dagegen keine Frage der Abweichungsanalyse, sondern des strategischen Controllings (vgl. den englischen Fachvortrag). Operatives und strategisches Controlling greifen hier ineinander.</p>
+    <div class="src"><b>Quelle:</b> GMH Gruppe, Unternehmensangaben (gmh-gruppe.de). Fallzahlen didaktisch und fiktiv.</div>
+  </div>
+
+  <!-- KOMPETENZCHECK -->
+  <div class="card">
+    <h2>Selbstcheck: Was kann ich schon?</h2>
+    <p style="font-size:.9rem;color:var(--slate);margin-bottom:.6rem">Haken Sie ab, was sitzt. Ihr Stand bleibt nur auf diesem Gerät (keine Übertragung).</p>
+    <div class="check" id="check">
+      <label><input type="checkbox" data-k="c1"> Ich berechne Sollkosten für jede Istbeschäftigung.</label>
+      <label><input type="checkbox" data-k="c2"> Ich zerlege eine Gesamtabweichung in Verbrauch und Beschäftigung.</label>
+      <label><input type="checkbox" data-k="c3"> Ich ordne jede Abweichung der richtigen Verantwortung zu.</label>
+      <label><input type="checkbox" data-k="c4"> Ich erkläre, warum Grenzplankosten keine Beschäftigungsabweichung kennen.</label>
+      <label><input type="checkbox" data-k="c5"> Ich rechne Leer- und Nutzkosten.</label>
+      <label><input type="checkbox" data-k="c6"> Ich prüfe eine (auch KI-erzeugte) Diagnose und korrigiere sie.</label>
+    </div>
+    <p id="score" style="margin-top:.6rem;font-weight:700;color:var(--navy)"></p>
+    <div class="note">Wenn alle sechs sitzen, haben Sie den Klausurkern. Danach lohnt der Selbsttest mit acht Fragen zur Kontrolle.</div>
+  </div>
+
+  <!-- LITERATUR -->
+  <div class="card">
+    <h2>Sekundärliteratur</h2>
+    <ul class="lit">
+      <li>Kilger, W., Pampel, J. &amp; Vikas, K. (2012). <i>Flexible Plankostenrechnung und Deckungsbeitragsrechnung</i> (13. Aufl.). Springer Gabler. <b>(Modulliteratur, Primärquelle)</b></li>
+      <li>Coenenberg, A. G., Fischer, T. M. &amp; Günther, T. (2016). <i>Kostenrechnung und Kostenanalyse</i>. Schäffer-Poeschel. <b>(Modulliteratur)</b></li>
+      <li>Weber, J. &amp; Schäffer, U. <i>Einführung in das Controlling</i>. Schäffer-Poeschel. <b>(Modulliteratur)</b></li>
+      <li>Gutenberg, E. (1983). <i>Grundlagen der Betriebswirtschaftslehre, Band 1: Die Produktion</i>. Springer. (Leer- und Nutzkosten)</li>
+      <li>Riebel, P. (1994). <i>Einzelkosten- und Deckungsbeitragsrechnung</i> (7. Aufl.). Gabler. (Vertiefung, über den Tellerrand)</li>
+      <li>Kahneman, D. (2011). <i>Schnelles Denken, langsames Denken</i>. Siedler. (System 1/2, zum KI-Check)</li>
+    </ul>
+  </div>
+
+  <!-- NETZQUELLEN -->
+  <div class="card">
+    <h2>Frei zugängliche Einstiegsquellen im Netz</h2>
+    <p style="font-size:.9rem;color:var(--slate);margin-bottom:.5rem">Gut für einen schnellen Einstieg oder eine zweite Erklärung. Prüfen Sie die Qualität immer gegen die Modulliteratur, diese Quellen sind nicht zitierfähig für die Klausur.</p>
+    <ul class="links" style="font-size:.9rem">
+      <li><a href="https://www.rechnungswesen-verstehen.de" target="_blank" rel="noopener">rechnungswesen-verstehen.de</a> - Abweichungsanalyse und Plankostenrechnung, mit Beispielen.</li>
+      <li><a href="https://www.welt-der-bwl.de" target="_blank" rel="noopener">welt-der-bwl.de</a> - Grenzplankostenrechnung, Deckungsbeitrag, kurz erklärt.</li>
+      <li><a href="https://www.controllingportal.de" target="_blank" rel="noopener">controllingportal.de</a> - Fachartikel und Glossar zum Controlling.</li>
+      <li><a href="https://www.gmh-gruppe.de" target="_blank" rel="noopener">gmh-gruppe.de</a> - Unternehmens- und Transformationskontext (Realbezug des Fallbeispiels).</li>
+      <li><a href="https://www.hs-osnabrueck.de" target="_blank" rel="noopener">hs-osnabrueck.de</a> - Modulhandbuch und Studienorganisation.</li>
+    </ul>
+  </div>
+
+  <!-- NAECHSTE SCHRITTE -->
+  <div class="card">
+    <h2>Ihre nächsten drei Schritte</h2>
+    <ol style="margin-left:1.2rem;font-size:.92rem">
+      <li>Am <a href="cockpit.html">Cockpit</a> eine reine Beschäftigungsabweichung ohne Verbrauchsabweichung erzeugen und die Stundenzahl finden, bei der die Leerkosten 10.000 € erreichen.</li>
+      <li>Den <a href="quiz.html">Selbsttest</a> spielen, bis Sie mindestens sieben von acht erreichen.</li>
+      <li>Den Selbstcheck oben abhaken. Alles grün heißt: Klausurkern sitzt.</li>
+    </ol>
+  </div>
+
+</main>
+
+<footer>
+  <div class="fbrand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Lernportal zur Probelehrveranstaltung · Hochschule Osnabrück · Kennziffer WiSo 307-2 · 17.11.2026<br>
+  Fallkontext angelehnt an die GMH Gruppe (Georgsmarienhütte), Zahlen didaktisch und fiktiv. Netzquellen sind Einstiegshilfen, keine zitierfähigen Belege.
+</footer>
+
+<script>
+(function(){
+  var box=document.getElementById('check'), score=document.getElementById('score');
+  if(!box) return;
+  var boxes=box.querySelectorAll('input[type=checkbox]');
+  function store(){ try{ var o={}; boxes.forEach(function(b){o[b.dataset.k]=b.checked}); localStorage.setItem('gpk_check',JSON.stringify(o)); }catch(e){} }
+  function load(){ try{ var o=JSON.parse(localStorage.getItem('gpk_check')||'{}'); boxes.forEach(function(b){ if(o[b.dataset.k]) b.checked=true; }); }catch(e){} }
+  function tally(){ var n=0; boxes.forEach(function(b){ if(b.checked)n++; }); score.textContent=n+' von '+boxes.length+' Kompetenzen'+(n===boxes.length?' erreicht. Klausurkern sitzt.':' erreicht.'); }
+  load(); tally();
+  boxes.forEach(function(b){ b.addEventListener('change',function(){ store(); tally(); }); });
+})();
+</script>
+</body>
+</html>

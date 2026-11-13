@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz · Abweichungsanalyse · HS Osnabrück</title>
+<style>
+  :root{--petrol:#1A2C5A;--petrol2:#26386B;--teal:#1E7A52;--orange:#A6611E;--red:#B23A2E;--green:#1E7A52;--gold:#B39058;--gold2:#86683A;--panel:#F2F4F8;--ice:#C1D1E8;--ink:#252629;--slate:#62708A;--line:#C7D0DE;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.5}
+  h1,.qtext,.result .score{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:8px;height:8px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--petrol);color:#fff;padding:1.4rem 1.2rem;border-bottom:3px solid var(--gold)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 1rem}
+  header h1{font-size:1.35rem}header p{opacity:.85;font-size:.9rem;margin-top:.2rem}
+  header a{color:var(--gold);font-size:.85rem}
+  main{max-width:760px;margin:1.2rem auto;padding:0 1rem}
+  .bar{height:7px;background:var(--ice);border-radius:4px;overflow:hidden;margin-bottom:1rem}
+  .bar>div{height:100%;background:var(--teal);width:0;transition:width .3s}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(20,50,59,.07);padding:1.3rem}
+  .qnum{font-size:.78rem;color:var(--slate);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+  .qtext{font-size:1.1rem;font-weight:600;color:var(--petrol);margin:.4rem 0 1rem}
+  .opt{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:.7rem .9rem;margin-bottom:.6rem;font-size:.98rem;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--teal);background:#F0F7F7}
+  .opt.correct{border-color:var(--green);background:#E7F4EC}
+  .opt.wrong{border-color:var(--red);background:#F8E9E6}
+  .opt:disabled{cursor:default}
+  .numrow{display:flex;gap:.6rem;align-items:center;margin-bottom:.6rem}
+  .numrow input{flex:1;padding:.6rem .7rem;border:1.5px solid var(--line);border-radius:9px;font-size:1rem}
+  .btn{background:var(--teal);color:#fff;border:0;border-radius:9px;padding:.6rem 1.1rem;font-size:.95rem;font-weight:600;cursor:pointer}
+  .btn:hover{background:#0b6968}
+  .fb{margin-top:.8rem;padding:.8rem .9rem;border-radius:9px;font-size:.92rem;display:none}
+  .fb.ok{background:#E7F4EC;color:#14532d;display:block}
+  .fb.no{background:#F8E9E6;color:#7a271a;display:block}
+  .next{margin-top:1rem;text-align:right}
+  .result{text-align:center}
+  .result .score{font-size:2.6rem;font-weight:800;color:var(--teal)}
+  .result .msg{color:var(--slate);margin:.5rem 0 1rem}
+  footer{color:var(--slate);font-size:.8rem;text-align:center;padding:1.4rem}
+  footer a{color:var(--teal)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div style="display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700;margin-bottom:.5rem"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <h1>Selbsttest: Abweichungsanalyse</h1>
+  <p>Acht Fragen zur flexiblen Grenzplankostenrechnung. Sofortiges Feedback, am Ende Ihr Punktestand.</p>
+  <a href="cockpit.html">&larr; Cockpit</a> &nbsp; <a href="tutorial.html">Lernportal &rarr;</a>
+</div></header>
+<main>
+  <div class="bar"><div id="prog"></div></div>
+  <div id="q" class="card"></div>
+  <footer>Modul Controlling (22B0140) · Hochschule Osnabrück · Dr. Christian Neusser · Fallkontext angelehnt an die GMH Gruppe, Zahlen fiktiv · Datenschutz: nichts wird gespeichert oder gesendet.</footer>
+</main>
+<script>
+const eur=n=>n.toLocaleString('de-DE')+' €';
+const QS=[
+ {t:"Was sind „Sollkosten“?",o:[
+   "Die Plankosten aus dem starren Jahresbudget",
+   "Proportionaler Satz mal Istbeschäftigung plus fixe Plankosten",
+   "Die tatsächlich angefallenen Istkosten",
+   "Umsatz minus variable Kosten"],c:1,
+   e:"Sollkosten sind der flexible Maßstab: Sie passen den Plan an die tatsächliche Auslastung an. Fix bleibt, nur der proportionale Teil atmet mit."},
+ {t:"Oktober: 600 Mh, Sollkosten 38.000 €, Istkosten 38.000 €. Wie hoch ist die Verbrauchsabweichung (in €)?",num:0,
+   e:"Verbrauchsabweichung = Ist minus Soll = 38.000 minus 38.000 = 0. Die Kostenstelle hat exakt so gearbeitet wie geplant."},
+ {t:"Welche Abweichung verantwortet die Kostenstelle selbst?",o:[
+   "Die Beschäftigungsabweichung","Die Verbrauchsabweichung","Beide gleichermaßen","Keine von beiden"],c:1,
+   e:"Die Verbrauchsabweichung misst Wirtschaftlichkeit (Mehrverbrauch, Ausschuss). Die Beschäftigungsabweichung kommt aus der Auslastung und gehört nicht der Stelle."},
+ {t:"Oktober: Sollkosten 38.000 €, verrechnete Plankosten 30.000 €. Wie hoch ist die Beschäftigungsabweichung (in €)?",num:8000,
+   e:"Beschäftigungsabweichung = Soll minus verrechnet = 38.000 minus 30.000 = 8.000. Das sind reine Leerkosten der ungenutzten Kapazität."},
+ {t:"Warum kennt die Grenzplankostenrechnung keine Beschäftigungsabweichung?",o:[
+   "Weil sie keine Fixkosten hat",
+   "Weil nur proportionale Kosten auf den Kostenträger verrechnet werden, Fixkosten bleiben als Block",
+   "Weil sie die Istbeschäftigung ignoriert",
+   "Weil sie nur im Monatsbericht auftaucht"],c:1,
+   e:"Da keine Fixkosten je Stunde verrechnet werden, kann auch keine Unterdeckung je Stunde entstehen. Die Phantom-Abweichung verschwindet."},
+ {t:"Die KI meldete „8.000 € ungünstig, ineffiziente Fertigung“. Was war ihr Fehler?",o:[
+   "Sie hat falsch gerechnet",
+   "Sie hat die Beschäftigungsabweichung als Verbrauchsabweichung etikettiert",
+   "Sie hat die Fixkosten vergessen",
+   "Sie hat den falschen Monat genommen"],c:1,
+   e:"Die Rechnung stimmte, die Deutung nicht. Die 8.000 € sind Auslastung, nicht Ineffizienz. Deshalb: KI prüfen statt KI glauben."},
+ {t:"Fixkosten 20.000 €, Planbeschäftigung 1.000 Mh, Istbeschäftigung 600 Mh. Wie hoch sind die Leerkosten (in €)?",num:8000,
+   e:"Leerkosten = 20.000 mal (1 minus 600/1.000) = 20.000 mal 0,4 = 8.000. Exakt gleich der Beschäftigungsabweichung."},
+ {t:"Wohin geht der Fixkostenblock in der Grenzplankostenrechnung?",o:[
+   "Er wird je Stunde auf die Produkte verteilt",
+   "Er entfällt ganz",
+   "Als Block in die Deckungsbeitragsrechnung",
+   "In die Verbrauchsabweichung"],c:2,
+   e:"Die Produkte tragen nur ihre Grenzkosten; der Deckungsbeitrag deckt den Fixkostenblock als Ganzes. Das vermeidet Fehlentscheidungen durch Fixkostenumlage."},
+];
+let i=0, score=0;
+const qEl=document.getElementById('q'), prog=document.getElementById('prog');
+function render(){
+  prog.style.width=(i/QS.length*100)+'%';
+  if(i>=QS.length){ return result(); }
+  const q=QS[i]; let h='<div class="qnum">Frage '+(i+1)+' von '+QS.length+'</div><div class="qtext">'+q.t+'</div>';
+  if(q.o){ h+=q.o.map((o,k)=>'<button class="opt" onclick="pick('+k+')">'+o+'</button>').join(''); }
+  else { h+='<div class="numrow"><input id="na" type="number" inputmode="numeric" placeholder="Betrag in Euro"><button class="btn" onclick="checkNum()">Prüfen</button></div>'; }
+  h+='<div id="fb" class="fb"></div><div class="next" id="nx"></div>';
+  qEl.innerHTML=h;
+}
+function lock(ok,expl){
+  document.querySelectorAll('.opt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('fb'); fb.className='fb '+(ok?'ok':'no');
+  fb.innerHTML=(ok?'<b>Richtig.</b> ':'<b>Nicht ganz.</b> ')+expl;
+  document.getElementById('nx').innerHTML='<button class="btn" onclick="next()">'+(i===QS.length-1?'Ergebnis':'Weiter')+'</button>';
+}
+function pick(k){ const q=QS[i]; const btns=document.querySelectorAll('.opt');
+  const ok=k===q.c; if(ok)score++; btns[q.c].classList.add('correct'); if(!ok)btns[k].classList.add('wrong'); lock(ok,q.e); }
+function checkNum(){ const q=QS[i]; const v=parseFloat((document.getElementById('na').value||'').replace(/\./g,'').replace(',','.'));
+  const ok=Math.abs(v-q.num)<1; if(ok)score++; lock(ok,q.e); document.getElementById('na').disabled=true; }
+function next(){ i++; render(); }
+function result(){ prog.style.width='100%';
+  const pct=Math.round(score/QS.length*100);
+  let msg = pct>=88?'Stark. Sie können eine KI-Diagnose souverän prüfen.':pct>=63?'Gut. Schauen Sie sich die erklärten Stellen noch einmal an.':'Üben Sie die Zerlegung am Cockpit, dann noch einmal.';
+  qEl.innerHTML='<div class="result"><div class="qnum">Ergebnis</div><div class="score">'+score+' / '+QS.length+'</div><div class="msg">'+msg+'</div>'+
+    '<button class="btn" onclick="restart()">Noch einmal</button> &nbsp; <a class="btn" style="text-decoration:none" href="cockpit.html">Zum Cockpit</a></div>';
+}
+function restart(){ i=0; score=0; render(); }
+render();
+</script>
+</body>
+</html>

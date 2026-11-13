@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probelehrveranstaltung · Material · Dr. Christian Neusser · HS Osnabrück</title>
+<style>
+  :root{--navy:#1A2C5A;--navy2:#26386B;--gold:#B39058;--gold2:#86683A;--slate:#62708A;--ink:#252629;--panel:#F2F4F8;--ice:#C1D1E8;--line:#C7D0DE;--green:#1E7A52;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.55}
+  h1,h2,h3{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  a{color:var(--navy)}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 1rem}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,8px);grid-template-rows:repeat(2,8px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:8px;height:8px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--navy);color:#fff;padding:1.3rem 1.2rem;border-bottom:3px solid var(--gold)}
+  .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem}
+  .brand{display:flex;align-items:center;gap:.5rem;color:var(--gold);font-size:.72rem;letter-spacing:2px;font-weight:700}
+  .nav a{color:#dce3f0;text-decoration:none;font-size:.82rem;margin-left:.9rem}
+  .nav a:hover{color:var(--gold)}
+  .hd{max-width:1000px;margin:1.5rem auto .4rem;padding:0 1rem}
+  .hd .ey{color:var(--gold2);font-size:.75rem;font-weight:700;letter-spacing:2px;margin-bottom:.4rem}
+  .hd h1{color:var(--navy);font-size:1.8rem;margin-bottom:.3rem}
+  .hd p{color:var(--slate);font-size:1rem;max-width:760px}
+  main{max-width:1000px;margin:1rem auto 2rem;padding:0 1rem}
+  .concept{background:var(--navy);color:#eaf0f8;border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.4rem}
+  .concept h2{color:#fff;font-size:1.15rem;margin-bottom:.5rem}
+  .concept .c4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:.7rem}
+  @media(max-width:760px){.concept .c4{grid-template-columns:1fr 1fr}}
+  .concept .c4 div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:9px;padding:.6rem .7rem;font-size:.82rem}
+  .concept .c4 b{color:var(--gold);display:block;margin-bottom:.15rem;font-size:.72rem;letter-spacing:1px}
+  .talk{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:1.4rem;box-shadow:0 2px 10px rgba(26,44,90,.06)}
+  .talk > .bar{background:var(--navy);color:#fff;padding:1rem 1.3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+  .talk.en > .bar{background:var(--navy2)}
+  .talk .bar .n{color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2px}
+  .talk .bar h2{font-size:1.3rem;margin-top:.1rem}
+  .talk .bar .meta{font-size:.8rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:.2rem .7rem}
+  .talk .in{padding:1.1rem 1.3rem}
+  .talk .in > p.sum{font-size:.95rem;margin-bottom:1rem}
+  .block{margin-bottom:1rem}
+  .block h3{font-size:.78rem;letter-spacing:1.5px;color:var(--gold2);display:flex;align-items:center;gap:.45rem;margin-bottom:.5rem;text-transform:uppercase}
+  .block h3 .sq{width:11px;height:11px;background:var(--gold);display:inline-block}
+  .files{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  @media(max-width:620px){.files{grid-template-columns:1fr}}
+  .file{display:flex;align-items:center;gap:.7rem;border:1px solid var(--line);border-radius:9px;padding:.6rem .8rem;text-decoration:none;color:var(--ink);background:#fff;transition:.15s}
+  .file:hover{border-color:var(--gold);background:var(--panel)}
+  .file .tg{flex:none;font-size:.65rem;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--gold2);border-radius:5px;padding:.22rem .4rem}
+  .file .tg.int{background:var(--green)}
+  .file .nm{font-size:.9rem;font-weight:600;line-height:1.2}
+  .file .ds{font-size:.76rem;color:var(--slate)}
+  footer{background:var(--navy);color:#cfd8ea;font-size:.82rem;padding:1.3rem;text-align:center}
+  .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.5rem}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="top">
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  <nav class="nav">
+    <a href="index.html">Übersicht</a>
+    <a href="bewerbung.html">Bewerbung</a>
+    <a href="ueber-mich.html">Als künftiger Kollege</a>
+  </nav>
+</div></div></header>
+
+<div class="hd">
+  <div class="ey">PROBELEHRVERANSTALTUNGSMATERIAL · 17. NOVEMBER 2026</div>
+  <h1>Material zur Probelehrveranstaltung</h1>
+  <p>Alle Unterlagen zu den beiden Vorträgen: Foliensätze und Dokumente als PDF, die interaktive Nachbereitung und die Klausurvorbereitung. Modul Controlling (22B0140), Hochschule Osnabrück, Kennziffer WiSo 307-2.</p>
+</div>
+
+<main>
+
+  <div class="concept">
+    <h2>Didaktisches Konzept auf einen Blick</h2>
+    <p style="font-size:.9rem;opacity:.92">Konstruktivistisch, kompetenzorientiert und entscheidungsnah. Ein produktiver Widerspruch aktiviert, die Studierenden rechnen und urteilen selbst, KI ist Werkzeug und Prüfgegenstand zugleich.</p>
+    <div class="c4">
+      <div><b>AKTIVIEREN</b>Ein KI-Bericht beschuldigt den Falschen. Mythos oder Fakt mit Karten.</div>
+      <div><b>ERARBEITEN</b>Nachbau der Abweichung, Zerlegung in Verbrauch und Beschäftigung.</div>
+      <div><b>ÜBEN</b>Partnerrechnung, Cockpit, Selbsttest und Wettbewerbsquiz.</div>
+      <div><b>SICHERN</b>Lernziele abhaken, KI-Diagnose prüfen und korrigieren.</div>
+    </div>
+  </div>
+
+  <!-- VORTRAG 1 -->
+  <div class="talk de">
+    <div class="bar">
+      <div><div class="n">VORTRAG 1 · PROBELEHRVERANSTALTUNG</div><h2>KI prüfen statt KI glauben</h2></div>
+      <span class="meta">45 Minuten · Deutsch · Modul 4.8</span>
+    </div>
+    <div class="in">
+      <p class="sum">Abweichungsanalyse mit flexibler Grenzplankostenrechnung und Deckungsbeitragsrechnung (nach Kilger und Plaut). Eine Controlling-KI legt einen Monatsbericht vor und beschuldigt die falsche Person. Die Studierenden decken den Fehler mit der sauberen Zerlegung selbst auf.</p>
+
+      <div class="block">
+        <h3><span class="sq"></span> Material und Dokumente</h3>
+        <div class="files">
+          <a class="file" href="261117_Probelehrveranstaltung_DE.pdf"><span class="tg">PDF</span><span><span class="nm">Foliensatz (Deutsch)</span><br><span class="ds">Vortragsfolien inkl. Anhang und Vertiefungen</span></span></a>
+          <a class="file" href="261117_Handouts.pdf"><span class="tg">PDF</span><span><span class="nm">Handout und Arbeitsblatt</span><br><span class="ds">Advance Organizer, Glossar, Übungsfall November</span></span></a>
+          <a class="file" href="261117_Regiebuch.pdf"><span class="tg">PDF</span><span><span class="nm">Regiebuch und Unterrichtsplan</span><br><span class="ds">Ablauf, Didaktik, Gesprächsleitfäden</span></span></a>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="sq"></span> Interaktiv und Nachbereitung</h3>
+        <div class="files">
+          <a class="file" href="cockpit.html"><span class="tg int">LIVE</span><span><span class="nm">Abweichungs-Cockpit</span><br><span class="ds">Schieber ziehen, die Phantom-Abweichung selbst erzeugen</span></span></a>
+          <a class="file" href="tutorial.html"><span class="tg int">WEB</span><span><span class="nm">Lernportal</span><br><span class="ds">Grundlagen, Vertiefung, Zusatz, kompetenzorientiert</span></span></a>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="sq"></span> Klausurvorbereitung</h3>
+        <div class="files">
+          <a class="file" href="quiz.html"><span class="tg int">WEB</span><span><span class="nm">Selbsttest</span><br><span class="ds">Acht Fragen, sofortiges Feedback, Klausurkern-Marker</span></span></a>
+          <a class="file" href="competition.html"><span class="tg int">SPIEL</span><span><span class="nm">Wettbewerbsquiz (Kahoot-Stil)</span><br><span class="ds">Zwölf Fragen auf Zeit, Punkte und Bestenliste</span></span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VORTRAG 2 -->
+  <div class="talk en">
+    <div class="bar">
+      <div><div class="n">VORTRAG 2 · FACHVORTRAG</div><h2>Basics of Strategic Controlling</h2></div>
+      <span class="meta">15 Minuten · Englisch</span>
+    </div>
+    <div class="in">
+      <p class="sum">Doing the right things, not only doing things right. Strategisches Controlling, Frühwarnung und die Balanced Scorecard, mit dem regionalen Bezug zur Grünstahl-Transformation der GMH Gruppe.</p>
+
+      <div class="block">
+        <h3><span class="sq"></span> Material und Dokumente</h3>
+        <div class="files">
+          <a class="file" href="261117_Fachvortrag_EN.pdf"><span class="tg">PDF</span><span><span class="nm">Slide deck (English)</span><br><span class="ds">Talk slides including the deeper research deep-dive</span></span></a>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3><span class="sq"></span> Vertiefung und Ausblick: vom Vortrag zum Fachartikel</h3>
+        <div class="files">
+          <a class="file" href="261117_Fachartikel_Entwurf.pdf"><span class="tg">PDF</span><span><span class="nm">Fachartikel-Entwurf</span><br><span class="ds">Management Control und externe Nachfolge (MSTM), Zieljournal Journal of Management Control</span></span></a>
+        </div>
+        <p style="font-size:.84rem;color:var(--slate);margin-top:.5rem">Der Deep-Dive des Fachvortrags mündet in einen ersten Manuskriptentwurf auf Basis meiner DBA-Forschung (MSTM-Framework). Arbeitspapier, noch nicht eingereicht.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="fbrand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Probelehrveranstaltung · Hochschule Osnabrück · Kennziffer WiSo 307-2 · 17.11.2026 · Fallkontext angelehnt an die GMH Gruppe, Zahlen fiktiv<br>
+  <a href="index.html">Zur Übersicht</a>
+</footer>
+</body>
+</html>
