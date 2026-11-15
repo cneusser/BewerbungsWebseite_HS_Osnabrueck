@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lehre an der DHBW Stuttgart · Kosten- und Leistungsrechnung · Dr. Christian Neusser</title>
+<style>
+  :root{--navy:#1A2C5A;--navy2:#26386B;--gold:#B39058;--gold2:#86683A;--slate:#62708A;--ink:#252629;--panel:#F2F4F8;--ice:#C1D1E8;--line:#C7D0DE;--red:#E2001A;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Calibri','Segoe UI',system-ui,Arial,sans-serif;color:var(--ink);background:#FBFCFE;line-height:1.55;min-height:100vh;display:flex;flex-direction:column}
+  h1,h2,h3{font-family:'Cambria',Georgia,'Times New Roman',serif}
+  a{text-decoration:none;color:inherit}
+  .mark{display:inline-grid;grid-template-columns:repeat(2,9px);grid-template-rows:repeat(2,9px);gap:2px;vertical-align:middle}
+  .mark i{display:block;width:9px;height:9px;background:#fff}
+  .mark i:last-child{background:var(--gold)}
+  header{background:var(--navy);color:#fff;padding:2.4rem 1.2rem 2.1rem;border-bottom:3px solid var(--gold);text-align:center}
+  .brand{display:inline-flex;align-items:center;gap:.55rem;color:var(--gold);font-size:.74rem;letter-spacing:2.5px;font-weight:700;margin-bottom:.8rem}
+  header h1{font-size:2rem;margin-bottom:.4rem;letter-spacing:.3px}
+  header .sub{opacity:.9;font-size:1rem;max-width:780px;margin:0 auto}
+  header .kz{display:inline-block;margin-top:.9rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:14px;padding:.2rem .9rem;font-size:.8rem}
+  main{max-width:1000px;margin:0 auto;padding:2rem 1rem;flex:1;width:100%}
+  .back{display:inline-block;color:var(--slate);font-size:.86rem;margin-bottom:1.2rem}
+  .back:hover{color:var(--navy)}
+  .frame{background:#fff;border:1px solid var(--line);border-left:5px solid var(--red);border-radius:12px;padding:1.3rem 1.5rem;margin-bottom:1.8rem;box-shadow:0 3px 14px rgba(26,44,90,.07)}
+  .frame h2{font-size:1.25rem;color:var(--navy);margin-bottom:.6rem}
+  .frame p{font-size:.97rem;margin-bottom:.6rem}
+  .frame .hl{color:var(--red);font-weight:700}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.6rem 0 0}
+  @media(max-width:720px){.split{grid-template-columns:1fr}}
+  .split .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem}
+  .split .box h3{font-size:1rem;margin-bottom:.4rem;color:var(--navy)}
+  .split .box.osna h3{color:var(--red)}
+  .split .box ul{list-style:none;padding:0}
+  .split .box li{font-size:.86rem;padding:.22rem 0 .22rem 1.2rem;position:relative}
+  .split .box li::before{content:"";position:absolute;left:0;top:.6rem;width:7px;height:7px;background:var(--gold)}
+  .sec-h{font-size:1.4rem;color:var(--navy);margin:1.6rem 0 .9rem;padding-bottom:.4rem;border-bottom:2px solid var(--gold)}
+  .days{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+  @media(max-width:720px){.days{grid-template-columns:1fr}}
+  .day{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 3px 14px rgba(26,44,90,.08)}
+  .day .top{background:var(--navy);color:#fff;padding:1rem 1.2rem}
+  .day .top .ey{color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2px;margin-bottom:.25rem}
+  .day .top h3{font-size:1.2rem}
+  .day .body{padding:1rem 1.2rem}
+  .day ol{margin:0;padding-left:1.1rem}
+  .day li{font-size:.9rem;margin-bottom:.5rem;padding-left:.2rem}
+  .day li b{color:var(--navy)}
+  .dl{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:.4rem}
+  @media(max-width:720px){.dl{grid-template-columns:1fr}}
+  .dlcard{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 3px 14px rgba(26,44,90,.08);transition:transform .15s,box-shadow .15s}
+  .dlcard:hover{transform:translateY(-4px);box-shadow:0 8px 26px rgba(26,44,90,.16)}
+  .dlcard .top{background:var(--navy);color:#fff;padding:1.1rem 1.3rem}
+  .dlcard .top .ey{color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2px;margin-bottom:.3rem}
+  .dlcard .top h3{font-size:1.2rem}
+  .dlcard .body{padding:1.1rem 1.3rem;flex:1;display:flex;flex-direction:column}
+  .dlcard .body p{font-size:.9rem;color:var(--ink);margin-bottom:.9rem}
+  .dlcard .go{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;background:var(--gold);color:var(--navy);font-weight:700;border-radius:10px;padding:.65rem 1rem;font-size:.92rem}
+  .dlcard:hover .go{background:var(--gold2);color:#fff}
+  .plvlink{margin:1.8rem 0 .4rem;background:var(--navy);color:#fff;border-radius:14px;padding:1.3rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+  .plvlink h3{font-size:1.15rem;color:#fff;margin-bottom:.25rem}
+  .plvlink p{font-size:.9rem;color:var(--ice)}
+  .plvlink a.btn{background:var(--gold);color:var(--navy);font-weight:700;border-radius:10px;padding:.7rem 1.2rem;font-size:.92rem;white-space:nowrap}
+  .plvlink a.btn:hover{background:#fff}
+  .viewer{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 3px 14px rgba(26,44,90,.08);background:#fff}
+  .viewer iframe{width:100%;height:78vh;min-height:520px;border:0;display:block}
+  footer{background:var(--navy);color:#cfd8ea;font-size:.8rem;padding:1.3rem;text-align:center}
+  .fbrand{display:flex;align-items:center;justify-content:center;gap:.5rem;color:var(--gold);font-weight:700;letter-spacing:2px;font-size:.72rem;margin-bottom:.5rem}
+  footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER · LEHRPORTFOLIO</div>
+  <h1>Lehre an der DHBW Stuttgart</h1>
+  <div class="sub">Auszug aus dem Modul Controlling (T3WIW3002) · operatives Controlling: Kosten-, Erlös- und Ergebnisrechnung · Studiengang Wirtschaftsingenieurwesen</div>
+  <span class="kz">Snapshot aus der Gesamtvorlesung · 3. Studienjahr · DHBW Stuttgart</span>
+</header>
+
+<main>
+  <a class="back" href="index.html">&larr; Zurück zur Übersicht</a>
+
+  <div class="frame">
+    <h2>Warum diese Rubrik?</h2>
+    <p>Dieser Foliensatz ist ein <b>Auszug aus meiner Controlling-Vorlesung</b> an der DHBW Stuttgart (Modul Controlling, T3WIW3002, 3. Studienjahr, nach Weber/Schäffer). Herausgegriffen ist der operative Baustein <b>Kosten-, Erlös- und Ergebnisrechnung</b> mit dem gesamten Methodenkanon, tiefer theoretischer Fundierung, vielen Grafiken und Übungen.</p>
+    <p>Für die 45-minütige Probelehrveranstaltung an der Hochschule Osnabrück habe ich einen Ausschnitt daraus bewusst <span class="hl">auf die Zukunftsfrage KI und Controlling zugespitzt</span> und didaktisch neu gerahmt, weil ich überzeugt bin, dass das kritische Prüfen von (KI-)Analysen eine Kernkompetenz künftiger Controllerinnen und Controller ist.</p>
+    <div class="split">
+      <div class="box"><h3>Hier · Stuttgart · 2 Tage</h3>
+        <ul><li>Voller Methodenkanon mit Herleitung</li><li>Rechenweg Schritt für Schritt, sieben Übungen</li><li>Fundierung auf Hochschulniveau mit Referenzen</li></ul></div>
+      <div class="box osna"><h3>Dort · Osnabrück · 45 Minuten</h3>
+        <ul><li>Ein durchgehender Fall, ein Aha-Moment</li><li>Zuspitzung auf die Beschäftigungsabweichung</li><li>KI und Controlling als Zukunftsthema</li></ul></div>
+    </div>
+  </div>
+
+  <h2 class="sec-h">Die zwei Tage im Überblick</h2>
+  <div class="days">
+    <div class="day">
+      <div class="top"><div class="ey">TAG 1</div><h3>Vollkostenrechnung</h3></div>
+      <div class="body"><ol>
+        <li><b>Einordnung:</b> internes vs. externes Rechnungswesen, Zwecke der KLR</li>
+        <li><b>Kostenartenrechnung:</b> Abgrenzung Aufwand/Kosten, Einzel-/Gemeinkosten, fix/variabel, kalkulatorische Kosten</li>
+        <li><b>Kostenstellenrechnung:</b> Betriebsabrechnungsbogen, innerbetriebliche Leistungsverrechnung, Zuschlagssätze</li>
+        <li><b>Kostenträgerrechnung:</b> Divisions-, Äquivalenzziffern-, Zuschlagskalkulation, Maschinenstundensatz</li>
+        <li><b>Betriebsergebnis:</b> Gesamt- und Umsatzkostenverfahren</li>
+      </ol></div>
+    </div>
+    <div class="day">
+      <div class="top"><div class="ey">TAG 2</div><h3>Teilkostenrechnung</h3></div>
+      <div class="body"><ol>
+        <li><b>Kostenauflösung:</b> fixe und variable Kosten, Hoch-Tief-Punkt und Regression</li>
+        <li><b>Deckungsbeitragsrechnung:</b> Direct Costing, mehrstufige Fixkostendeckung</li>
+        <li><b>Break-even und Engpass:</b> Gewinnschwelle, relativer Deckungsbeitrag (Riebel)</li>
+        <li><b>Nutz- und Leerkosten:</b> Karree, Kostenremanenz (Bredt, Gutenberg)</li>
+        <li><b>Plan- und Grenzplankostenrechnung:</b> Sollkosten, Abweichungsanalyse, Kilger und Plaut</li>
+        <li><b>Integrierter Fall</b> und Ausblick KI im Controlling</li>
+      </ol></div>
+    </div>
+  </div>
+
+  <h2 class="sec-h">Materialien zum Ansehen</h2>
+  <div class="dl">
+    <a class="dlcard" href="261117_DHBW_KLR_Vorlesung.pdf" target="_blank" rel="noopener">
+      <div class="top"><div class="ey">FOLIEN · 82 SEITEN</div><h3>Vorlesung (PDF)</h3></div>
+      <div class="body"><p>Das vollständige Foliendeck im DHBW-Design: Herleitungen, Grafiken aus der Vorlesung, durchgerechnete Beispiele und Übungen, inklusive der Vertiefungen zu Prozesskostenrechnung und Target Costing.</p><span class="go">In neuem Tab öffnen</span></div>
+    </a>
+    <a class="dlcard" href="261117_DHBW_KLR_Uebungen.pdf" target="_blank" rel="noopener">
+      <div class="top"><div class="ey">ÜBUNGEN · MIT LÖSUNGEN</div><h3>Übungssammlung (PDF)</h3></div>
+      <div class="body"><p>Sieben Übungen mit ausführlichen Musterlösungen: Abgrenzung, BAB und Zuschlagssätze, Zuschlagskalkulation, Kostenauflösung, Deckungsbeitrag, Nutz-/Leerkosten und Abweichungsanalyse.</p><span class="go">In neuem Tab öffnen</span></div>
+    </a>
+  </div>
+
+  <h2 class="sec-h">Direkt auf der Seite blättern</h2>
+  <p style="color:var(--slate);font-size:.95rem;margin-bottom:.8rem">Der komplette Foliensatz, eingebettet. Scrollen und blättern direkt hier im Browser, ohne Download.</p>
+  <div class="viewer">
+    <iframe src="261117_DHBW_KLR_Vorlesung.pdf#view=FitH" title="DHBW Kosten- und Leistungsrechnung, Foliensatz" loading="lazy"></iframe>
+  </div>
+  <p style="color:var(--slate);font-size:.82rem;margin-top:.5rem">Falls die Vorschau in Ihrem Browser nicht erscheint, öffnen Sie den Foliensatz über die Karte oben.</p>
+
+  <div class="plvlink">
+    <div><h3>Und so sieht der 45-Minuten-Ausschnitt aus</h3><p>Die Probelehrveranstaltung an der Hochschule Osnabrück: derselbe Kern, zugespitzt auf KI und Controlling.</p></div>
+    <a class="btn" href="probelehrveranstaltung.html">Zur Probelehrveranstaltung &rarr;</a>
+  </div>
+</main>
+
+<footer>
+  <div class="fbrand"><span class="mark"><i></i><i></i><i></i><i></i></span> DR. CHRISTIAN NEUSSER</div>
+  Kosten- und Leistungsrechnung · DHBW Stuttgart · Modul Controlling (T3WIW3002) · Lehrmaterialien zu Ansichtszwecken
+</footer>
+</body>
+</html>
